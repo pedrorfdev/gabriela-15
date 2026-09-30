@@ -1,0 +1,32 @@
+---
+interface Props {
+  nextColor: string;
+  iconColor?: string;
+}
+
+const { nextColor, iconColor = 'var(--color-accent)' } = Astro.props;
+---
+
+<div
+  class="section-peek absolute inset-x-4 bottom-0 flex h-11 items-center justify-center rounded-t-2xl"
+  style={{ background: nextColor }}
+>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={iconColor} stroke-width="2">
+    <path d="M6 9l6 6 6-6"></path>
+  </svg>
+</div>
+
+<style>
+  .section-peek svg {
+    animation: peek-bounce 1.8s ease-in-out infinite;
+  }
+
+  @keyframes peek-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-peek svg { animation: none; }
+  }
+</style>

@@ -1,0 +1,161 @@
+/* src/styles/global.css */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&display=swap');
+@import "tailwindcss";
+
+
+:root {
+  --color-bg: #FAF7F2;
+  --color-bg-alt: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-ink: #3A322E;
+  --color-muted: #8C7F72;
+  --color-accent: #9C4F68;
+  --color-accent-deep: #8A4460;
+  --color-accent-soft: #D9A3B8;
+  --color-gold: #B08A4A;
+  --color-gold-soft: #D8C08A;
+  --color-sage: #A3AE8C;
+  --color-blush-band: #F5E9E4;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+
+  --font-display: 'Bodoni Moda', serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans: 'Jost', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1C1420;
+    --color-bg-alt: #2A1F30;
+    --color-surface: #251A2C;
+    --color-ink: #F5EDE9;
+    --color-muted: #A99BA3;
+    --color-accent: #E091AC;
+    --color-accent-deep: #8A4460;
+    --color-accent-soft: #D9A3B8;
+    --color-gold: #D9B872;
+    --color-gold-soft: #D8C08A;
+    --color-sage: #A8B592;
+    --color-blush-band: #241A28;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.18);
+  }
+}
+
+:root.dark {
+  --color-bg: #1C1420;
+  --color-bg-alt: #2A1F30;
+  --color-surface: #251A2C;
+  --color-ink: #F5EDE9;
+  --color-muted: #A99BA3;
+  --color-accent: #E091AC;
+  --color-accent-deep: #8A4460;
+  --color-accent-soft: #D9A3B8;
+  --color-gold: #D9B872;
+  --color-gold-soft: #D8C08A;
+  --color-sage: #A8B592;
+  --color-blush-band: #241A28;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
+}
+
+:root.light {
+  --color-bg: #FAF7F2;
+  --color-bg-alt: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-ink: #3A322E;
+  --color-muted: #8C7F72;
+  --color-accent: #9C4F68;
+  --color-accent-deep: #8A4460;
+  --color-accent-soft: #D9A3B8;
+  --color-gold: #B08A4A;
+  --color-gold-soft: #D8C08A;
+  --color-sage: #A3AE8C;
+  --color-blush-band: #F5E9E4;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-surface: var(--color-surface);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-accent-deep: var(--color-accent-deep);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-gold: var(--color-gold);
+  --color-gold-soft: var(--color-gold-soft);
+  --color-sage: var(--color-sage);
+  --color-blush-band: var(--color-blush-band);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+section {
+  scroll-snap-align: start;
+}
+
+.name-shine {
+  background: linear-gradient(100deg, var(--color-accent) 35%, var(--color-accent-soft) 50%, var(--color-accent) 65%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 7s linear infinite;
+}
+@keyframes shine {
+  to { background-position: -200% center; }
+}
+
+.bokeh {
+  filter: blur(20px);
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ghost-num {
+  font-family: var(--font-display);
+  font-weight: 500;
+  position: absolute;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  color: var(--color-ink);
+  opacity: 0.04;
+}
+
+.flourish {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 22px;
+}
+.flourish span {
+  width: 26px;
+  height: 1px;
+  background: var(--color-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .name-shine { animation: none; }
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

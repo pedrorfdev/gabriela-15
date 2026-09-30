@@ -1,0 +1,89 @@
+---
+import { IconBrandInstagram, IconBrandWhatsapp } from '@tabler/icons-react';
+import BokehLayer from '@/components/ui/BokehLayer.astro';
+import { eventConfig, navLinks } from '@/data/event';
+---
+
+<section class="relative z-20 min-h-screen overflow-hidden rounded-t-[28px] bg-accent-deep px-6 py-24 text-center">
+  <BokehLayer variant="footer" />
+
+  <div class="relative z-10 mx-auto flex max-w-2xl flex-col items-center">
+    <p class="font-display text-6xl italic text-white sm:text-7xl">
+      {eventConfig.person.name}
+    </p>
+
+    <p class="mb-14 mt-3 text-lg text-white/80">
+      {eventConfig.person.age} anos · {eventConfig.date.displayDate}
+    </p>
+
+    <div class="mb-10 flex flex-wrap justify-center gap-x-8 gap-y-3">
+      {navLinks.map((link) => (
+        <a href={link.href} class="text-sm uppercase tracking-wide text-white/80 hover:text-white">
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="mb-9 flex justify-center gap-5">
+      {eventConfig.social.map((social) => (
+        <a
+          href={social.url}
+          aria-label={social.platform}
+          class="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/15"
+        >
+          {social.platform === 'instagram' ? (
+            <IconBrandInstagram size={22} />
+          ) : (
+            <IconBrandWhatsapp size={22} />
+          )}
+        </a>
+      ))}
+    </div>
+
+    <p class="mb-8 text-xs text-white/40">{eventConfig.hashtag}</p>
+
+    <a href="#rsvp" class="cta-pulse rounded-full bg-white px-10 py-4 text-sm uppercase tracking-wide text-accent-deep">
+      Confirmar presença
+    </a>
+
+    <p class="mt-14 text-xs text-white/50">
+      {eventConfig.credit}
+      {' · '}
+      <a href={eventConfig.studio.url} class="underline decoration-white/30 underline-offset-2 hover:text-white">
+        {eventConfig.studio.name}
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .cta-pulse {
+    position: relative;
+    animation: cta-scale 2.6s ease-in-out infinite;
+  }
+
+  .cta-pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    animation: cta-ring 2.6s ease-out infinite;
+  }
+
+  @keyframes cta-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+
+  @keyframes cta-ring {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-pulse, .cta-pulse::after {
+      animation: none;
+    }
+  }
+</style>

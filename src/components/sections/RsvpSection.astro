@@ -1,0 +1,23 @@
+---
+import RsvpWizard from '@/components/islands/RsvpWizard';
+import Flourish from '@/components/ui/Flourish.astro';
+import GhostNumeral from '@/components/ui/GhostNumeral.astro';
+import { eventConfig } from '@/data/event';
+---
+
+<section id="rsvp" class="sticky top-0 z-10 min-h-screen overflow-hidden bg-blush-band px-6 py-20 text-center">
+  <GhostNumeral number="07" size="220px" left="50%" />
+
+  <div class="relative z-10">
+    <p class="font-display text-5xl italic text-ink" style="font-family: var(--font-display)">
+      Confirme presença
+    </p>
+    <Flourish />
+    <p class="mx-auto mb-9 max-w-sm text-xs text-muted">
+      responda até {eventConfig.rsvpDeadline.display} · sua confirmação e a dos seus
+      acompanhantes em um só lugar
+    </p>
+
+    <RsvpWizard client:visible />
+  </div>
+</section>

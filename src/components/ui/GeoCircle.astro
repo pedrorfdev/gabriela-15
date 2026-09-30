@@ -1,0 +1,17 @@
+---
+interface Props {
+  size: string;
+  color?: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
+}
+
+const { size, color = 'rgba(156, 79, 104, 0.12)', top, bottom, left, right } = Astro.props;
+---
+
+<div
+  class="pointer-events-none absolute rounded-full border-[1.5px]"
+  style={{ width: size, height: size, borderColor: color, top, bottom, left, right }}
+></div>

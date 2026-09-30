@@ -1,0 +1,37 @@
+---
+interface Props {
+  variant?: 'hero' | 'footer';
+}
+
+const { variant = 'hero' } = Astro.props;
+
+const blobs = {
+  hero: [
+    { size: 260, color: '#E3B9C8', opacity: 0.5, top: '-80px', left: '-60px' },
+    { size: 220, color: '#D8C08A', opacity: 0.4, top: '-40px', right: '-60px' },
+    { size: 180, color: '#A3AE8C', opacity: 0.3, bottom: '-50px', left: '80px' },
+  ],
+  footer: [
+    { size: 200, color: '#D9A3B8', opacity: 0.25, top: '-70px', left: '-40px' },
+    { size: 160, color: '#E8D4A0', opacity: 0.2, bottom: '-50px', right: '-30px' },
+  ],
+};
+---
+
+{
+  blobs[variant].map((blob) => (
+    <div
+      class="bokeh"
+      style={{
+        width: `${blob.size}px`,
+        height: `${blob.size}px`,
+        background: blob.color,
+        opacity: blob.opacity,
+        top: blob.top,
+        left: blob.left,
+        right: blob.right,
+        bottom: blob.bottom,
+      }}
+    />
+  ))
+}

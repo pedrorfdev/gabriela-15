@@ -1,0 +1,46 @@
+---
+// src/components/sections/Hero.astro
+import Countdown from '@/components/islands/Countdown';
+import BokehLayer from '@/components/ui/BokehLayer.astro';
+import SectionPeek from '@/components/ui/SectionPeek.astro';
+import { eventConfig } from '@/data/event';
+---
+
+<section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg text-center">
+  <BokehLayer variant="hero" />
+
+  <div class="relative z-10 px-6">
+    <p class="mb-5 text-[11px] uppercase tracking-[0.2em] text-muted">
+      você está convidado para os
+    </p>
+
+    <p class="name-shine font-display text-6xl italic sm:text-8xl">
+      {eventConfig.person.name}
+    </p>
+
+    <p class="mt-3 mb-4 font-serif text-xl italic text-ink">
+      {eventConfig.person.age} anos
+    </p>
+
+    <div class="mx-auto mb-4 h-px w-14 bg-gold"></div>
+
+    <p class="mb-10 text-[11px] uppercase tracking-[0.15em] text-muted">
+      {eventConfig.date.displayDate} · {eventConfig.date.displayTime}
+    </p>
+
+    <div class="mb-8">
+      <Countdown client:load targetIso={eventConfig.date.iso} />
+    </div>
+
+    <p class="mb-8 text-xs uppercase tracking-[0.15em] text-muted">{eventConfig.venue.name}</p>
+
+    <a
+      href="#rsvp"
+      class="inline-block rounded-full bg-accent px-8 py-3.5 text-xs uppercase tracking-wide text-white"
+    >
+      Confirmar presença
+    </a>
+  </div>
+
+  <SectionPeek nextColor="var(--color-surface)" />
+</section>

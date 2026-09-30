@@ -1,0 +1,15 @@
+---
+interface Props {
+  number: string;
+  top?: string;
+  left?: string;
+  right?: string;
+  size?: string;
+}
+
+const { number, top = '-40px', left, right, size = '200px' } = Astro.props;
+---
+
+<p class="ghost-num" style={{ fontSize: size, top, left, right }}>
+  {number}
+</p>

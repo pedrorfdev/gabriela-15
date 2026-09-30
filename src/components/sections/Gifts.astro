@@ -1,0 +1,92 @@
+---
+import { IconPlane, IconGift, IconHeart, IconArrowRight } from '@tabler/icons-react';
+import Flourish from '@/components/ui/Flourish.astro';
+import GeoCircle from '@/components/ui/GeoCircle.astro';
+import { giftOptions } from '@/data/event';
+
+const iconMap: Record<string, typeof IconPlane> = {
+  plane: IconPlane,
+  gift: IconGift,
+  heart: IconHeart,
+};
+---
+
+<section id="gifts" class="fade-in-section relative flex min-h-screen items-center overflow-hidden bg-blush-band px-6 py-20 sm:px-16">
+  <GeoCircle size="280px" color="rgba(212, 175, 106, 0.25)" top="-100px" left="-90px" />
+  <GeoCircle size="200px" color="rgba(156, 79, 104, 0.15)" bottom="-80px" right="-60px" />
+
+  <div class="relative z-10 mx-auto grid max-w-5xl gap-14 sm:grid-cols-[1fr_1.1fr] sm:items-center">
+    <div>
+      <p class="font-display text-5xl italic text-ink sm:text-6xl">Presentes</p>
+      <Flourish align="left" />
+      <p class="text-base text-muted">sua presença já é o maior presente</p>
+    </div>
+
+    <div class="flex flex-col gap-5">
+      {giftOptions.map((option) => {
+        const Icon = iconMap[option.icon];
+        return (
+          <a
+            href={option.link || '#'}
+            class="gift-card group flex cursor-pointer items-center gap-5 border border-black/8 bg-surface p-8 text-left"
+          >
+            <Icon size={28} className="shrink-0 text-accent" />
+            <span class="flex-1 text-xl font-medium text-ink">{option.title}</span>
+            <IconArrowRight
+              size={20}
+              className="shrink-0 -translate-x-2 text-accent opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+            />
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .gift-card {
+    border-radius: 16px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .gift-card:hover {
+    transform: scale(0.98);
+    border-color: var(--color-accent);
+  }
+
+  .fade-in-section {
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .fade-in-section.is-visible {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-section {
+      opacity: 1;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  function initGiftsFadeIn() {
+    const section = document.getElementById('gifts');
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    observer.observe(section);
+  }
+
+  initGiftsFadeIn();
+</script>

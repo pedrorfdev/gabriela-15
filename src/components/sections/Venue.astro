@@ -1,0 +1,96 @@
+---
+import { IconMapPinFilled } from '@tabler/icons-react';
+import GhostNumeral from '@/components/ui/GhostNumeral.astro';
+import { eventConfig } from '@/data/event';
+---
+
+<section id="venue" class="relative bg-blush-band pb-16">
+  <div class="relative flex h-[70vh] items-center justify-center overflow-hidden bg-linear-to-br from-[#E8E4DC] to-[#D9D4C8]">
+    <IconMapPinFilled id="venue-pin" size={34} className="text-accent" />
+    <GhostNumeral number="02" size="160px" right="30px" top="-10px" />
+
+    {
+      eventConfig.venue.mapsEmbedUrl && (
+        <iframe
+          src={eventConfig.venue.mapsEmbedUrl}
+          class="absolute inset-0 h-full w-full border-0"
+          loading="lazy"
+          title="Mapa do local"
+        />
+      )
+    }
+  </div>
+
+  <div
+    id="venue-card"
+    class="relative z-10 mx-6 -mt-11 max-w-xs rounded-xl border border-black/8 bg-surface p-6 sm:mx-12"
+  >
+    <p class="font-display text-2xl italic text-ink">Como chegar</p>
+    <p class="mb-4 mt-2 text-xs text-muted">{eventConfig.venue.address}</p>
+    <a
+      href={eventConfig.venue.mapsLinkUrl || '#'}
+      target="_blank"
+      class="inline-block rounded-full border border-accent px-5 py-2.5 text-[11px] uppercase tracking-wide text-accent"
+    >
+      Ver rotas no Maps
+    </a>
+  </div>
+</section>
+
+<style>
+  #venue-pin {
+    opacity: 0;
+  }
+  #venue-pin.is-dropped {
+    animation: pin-drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes pin-drop {
+    0% { transform: translateY(-140px); opacity: 0; }
+    70% { transform: translateY(0); opacity: 1; }
+    85% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+
+  #venue-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  #venue-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #venue-pin { opacity: 1; animation: none; }
+    #venue-card { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  function initVenueReveal() {
+    const section = document.getElementById('venue');
+    const pin = document.getElementById('venue-pin');
+    const card = document.getElementById('venue-card');
+    if (!section || !pin || !card) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          pin.classList.add('is-dropped');
+          setTimeout(() => card.classList.add('is-visible'), 500);
+
+          observer.unobserve(section);
+        });
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+  }
+
+  initVenueReveal();
+</script>

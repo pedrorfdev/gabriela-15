@@ -1,0 +1,76 @@
+---
+// src/components/sections/Recommendations.astro
+import Flourish from '@/components/ui/Flourish.astro';
+import DecorativeMap from '@/components/ui/DecorativeMap.astro';
+import { recommendations } from '@/data/event';
+---
+
+<section id="recommendations" class="relative overflow-hidden bg-surface px-6 py-24 sm:px-16">
+  <div class="mx-auto grid max-w-6xl gap-16 sm:grid-cols-[1fr_280px]">
+    <div>
+      <p class="font-display text-5xl italic text-ink sm:text-6xl">Recomendações</p>
+      <Flourish align="left" />
+
+      <div class="flex flex-col gap-3">
+        {recommendations.map((item, index) => (
+          <div
+            class="rec-card flex items-center gap-6 rounded-2xl p-5 transition-colors hover:bg-accent/5"
+            data-direction={index % 2 === 0 ? 'left' : 'right'}
+          >
+            <div
+              class="h-30 w-42.5 shrink-0 rounded-xl"
+              style={{ background: `linear-gradient(135deg, ${item.imageColor}, #FFFFFF20)` }}
+            />
+            <div class="text-left">
+              <span class="rounded-full bg-accent/10 px-3 py-1.5 text-xs uppercase tracking-wide text-accent">
+                {item.categoryLabel}
+              </span>
+              <p class="mt-3 font-serif text-2xl italic text-ink">{item.name}</p>
+              <p class="text-base text-muted">{item.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="hidden self-center sm:block">
+      <DecorativeMap />
+    </div>
+  </div>
+</section>
+
+<style>
+  .rec-card {
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .rec-card[data-direction='left'] { transform: translateX(-70px); }
+  .rec-card[data-direction='right'] { transform: translateX(70px); }
+  .rec-card.is-visible { opacity: 1; transform: translateX(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rec-card { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  function initRecommendationsReveal() {
+    const cards = document.querySelectorAll('.rec-card');
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }
+
+  initRecommendationsReveal();
+</script>

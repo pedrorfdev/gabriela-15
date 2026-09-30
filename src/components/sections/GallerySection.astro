@@ -1,0 +1,16 @@
+---
+import Gallery from '@/components/islands/Gallery';
+import Flourish from '@/components/ui/Flourish.astro';
+---
+
+<section id="gallery" class="relative min-h-screen bg-surface pt-20">
+  <div class="px-6 pb-6 sm:px-16">
+    <p class="font-display text-4xl italic text-ink" style="font-family: var(--font-display)">
+      Galeria
+    </p>
+    <Flourish align="left" />
+    <p class="text-xs text-muted">em breve, os registros da festa</p>
+  </div>
+
+  <Gallery client:visible />
+</section>
