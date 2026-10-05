@@ -2,7 +2,7 @@
 // src/lib/hash.ts
 //
 // SHA-256 hashing for the password gate. The real password never
-// lives in the codebase — only its hash (PUBLIC_GATE_HASH).
+// lives in the codebase — only its hash (GATE_HASH).
 // ============================================================
 
 /**

@@ -6,7 +6,7 @@ import { useGateUnlock } from '@/hooks/useGateUnlock';
 import { backdropFade } from '@/lib/motion';
 import SwipeToConfirm from './gate/SwipeToConfirm';
 
-const GATE_HASH = import.meta.env.PUBLIC_GATE_HASH as string;
+const GATE_HASH = import.meta.env.GATE_HASH as string;
 
 export default function PasswordGate() {
   const { isUnlocked, isChecked, unlock } = useGateUnlock();

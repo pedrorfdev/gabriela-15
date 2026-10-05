@@ -11,5 +11,5 @@ if (!password) {
 const normalized = password.trim().toLowerCase();
 const hash = createHash('sha256').update(normalized).digest('hex');
 
-console.log('\nPUBLIC_GATE_HASH=' + hash + '\n');
+console.log('\nGATE_HASH=' + hash + '\n');
 console.log('Paste that into .env and into your Vercel project env vars.\n');
