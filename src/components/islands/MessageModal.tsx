@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { motion } from 'motion/react';
 import { backdropFade } from '@/lib/motion';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 import type { SeedMessage } from '@/data/event';
 
 interface MessageModalProps {
@@ -8,39 +9,9 @@ interface MessageModalProps {
   onClose: () => void;
 }
 
-const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-
 export default function MessageModal({ message, onClose }: MessageModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const modalEl = modalRef.current;
-    if (!modalEl) return;
-
-    const focusables = modalEl.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-    first?.focus();
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-      if (event.key !== 'Tab' || focusables.length === 0) return;
-
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  useFocusTrap(modalRef, onClose);
 
   return (
     <motion.div
@@ -55,31 +26,31 @@ export default function MessageModal({ message, onClose }: MessageModalProps) {
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-sm"
-        style={{ perspective: 900 }}
+        className="relative w-full max-w-md"
+        style={{ perspective: 1000 }}
         onClick={(event) => event.stopPropagation()}
       >
         <motion.div
-          className="relative z-1 rounded-xl bg-surface p-7 text-center"
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: -36, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-2xl bg-surface p-8 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.5 }}
         >
-          <p className="mb-4 font-serif italic leading-relaxed text-ink">{message.message}</p>
-          <p className="mb-4 text-xs text-accent">— {message.sender}</p>
+          <p className="mb-5 font-serif text-lg italic leading-relaxed text-ink">
+            {message.message}
+          </p>
+          <p className="mb-5 text-sm text-accent">— {message.sender}</p>
           <button onClick={onClose} className="text-xs uppercase tracking-wide text-muted">
             Fechar
           </button>
         </motion.div>
 
-        <div className="absolute inset-x-0 bottom-0 z-2 h-24 rounded-b-xl bg-accent-soft" />
-
         <motion.div
-          className="absolute inset-x-0 top-0 z-3 h-24 rounded-t-xl bg-accent-soft"
-          style={{ transformOrigin: 'top center', clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+          className="absolute inset-0 rounded-2xl bg-accent-soft"
+          style={{ transformOrigin: 'top center', backfaceVisibility: 'hidden' }}
           initial={{ rotateX: 0 }}
-          animate={{ rotateX: 160 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          animate={{ rotateX: 180 }}
+          transition={{ duration: 0.7, ease: 'easeInOut' }}
         />
       </div>
     </motion.div>

@@ -11,6 +11,10 @@
  * up by stray spaces or capitalization.
  */
 export async function sha256Hex(input: string): Promise<string> {
+  if (!globalThis.crypto?.subtle) {
+    throw new Error('Web Crypto API unavailable — it only works on HTTPS or localhost.');
+  }
+
   const normalized = input.trim().toLowerCase();
   const data = new TextEncoder().encode(normalized);
   const digest = await crypto.subtle.digest('SHA-256', data);
@@ -26,5 +30,5 @@ export async function sha256Hex(input: string): Promise<string> {
 export async function verifyPassword(input: string, expectedHash: string): Promise<boolean> {
   if (!input || !expectedHash) return false;
   const hash = await sha256Hex(input);
-  return hash === expectedHash;
+  return hash === expectedHash.trim();
 }

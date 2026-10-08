@@ -26,13 +26,29 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <script is:inline>
-      const stored = localStorage.getItem('theme');
-      if (stored === 'dark' || stored === 'light') {
-        document.documentElement.classList.add(stored);
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark' || storedTheme === 'light') {
+        document.documentElement.classList.add(storedTheme);
       }
     </script>
   </head>
   <body>
     <slot />
+
+    <script>
+      document.addEventListener('click', (event) => {
+        const link = (event.target as HTMLElement).closest('a[href^="#"]');
+        if (!link) return;
+
+        const targetId = link.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+
+        const target = document.querySelector(targetId);
+        if (!target) return;
+
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    </script>
   </body>
 </html>

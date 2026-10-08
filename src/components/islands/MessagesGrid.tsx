@@ -5,9 +5,11 @@ import { IconPlus } from '@tabler/icons-react';
 import { seedMessages } from '@/data/event';
 import MessageCard from './MessageCard';
 import MessageModal from './MessageModal';
+import AddMessageModal from './AddMessageModal';
 
 export default function MessagesGrid() {
   const [openMessageId, setOpenMessageId] = useState<string | null>(null);
+  const [isComposing, setIsComposing] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,11 +18,12 @@ export default function MessagesGrid() {
 
   const openMessage = seedMessages.find((message) => message.id === openMessageId);
 
-  const modal = (
+  const modals = (
     <AnimatePresence>
       {openMessage && (
         <MessageModal message={openMessage} onClose={() => setOpenMessageId(null)} />
       )}
+      {isComposing && <AddMessageModal onClose={() => setIsComposing(false)} />}
     </AnimatePresence>
   );
 
@@ -36,13 +39,16 @@ export default function MessagesGrid() {
           />
         ))}
 
-        <button className="rounded-2xl border border-dashed border-black/15 p-7 text-center transition-transform hover:-translate-y-1">
+        <button
+          onClick={() => setIsComposing(true)}
+          className="rounded-2xl border border-dashed border-border-strong p-7 text-center transition-transform hover:-translate-y-1"
+        >
           <IconPlus size={30} className="mx-auto text-muted" />
           <p className="mt-3.5 text-sm text-muted">Deixe o seu</p>
         </button>
       </div>
 
-      {isMounted ? createPortal(modal, document.body) : null}
+      {isMounted ? createPortal(modals, document.body) : null}
     </div>
   );
 }
