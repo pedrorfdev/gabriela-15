@@ -1,24 +1,23 @@
 ---
-// src/components/sections/Recommendations.astro
 import Flourish from '@/components/ui/Flourish.astro';
 import DecorativeMap from '@/components/ui/DecorativeMap.astro';
 import { recommendations } from '@/data/event';
 ---
 
-<section id="recommendations" class="relative overflow-hidden bg-surface px-6 py-24 sm:px-16">
-  <div class="mx-auto grid max-w-6xl gap-16 sm:grid-cols-[1fr_280px]">
+<section id="recommendations" class="relative overflow-hidden bg-surface px-4 py-16 sm:px-16 sm:py-24">
+  <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1fr_280px] lg:gap-16">
     <div>
-      <p class="font-display text-5xl italic text-ink sm:text-6xl">Recomendações</p>
+      <p class="font-display text-4xl italic text-ink sm:text-5xl lg:text-6xl">Recomendações</p>
       <Flourish align="left" />
 
       <div class="flex flex-col gap-3">
         {recommendations.map((item, index) => (
           <div
-            class="rec-card flex items-center gap-6 rounded-2xl p-5 transition-colors hover:bg-accent/5"
+            class="rec-card flex flex-col items-start gap-4 rounded-2xl p-4 transition-colors hover:bg-accent/5 sm:flex-row sm:items-center sm:gap-6 sm:p-5"
             data-direction={index % 2 === 0 ? 'left' : 'right'}
           >
             <div
-              class="h-30 w-42.5 shrink-0 rounded-xl"
+              class="h-36 w-full shrink-0 rounded-xl sm:h-30 sm:w-42.5"
               style={{ background: `linear-gradient(135deg, ${item.imageColor}, #FFFFFF20)` }}
             />
             <div class="text-left">
@@ -33,7 +32,7 @@ import { recommendations } from '@/data/event';
       </div>
     </div>
 
-    <div class="hidden self-center sm:block">
+    <div class="hidden self-center lg:block">
       <DecorativeMap />
     </div>
   </div>

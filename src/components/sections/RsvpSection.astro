@@ -5,13 +5,11 @@ import GhostNumeral from '@/components/ui/GhostNumeral.astro';
 import { eventConfig } from '@/data/event';
 ---
 
-<section id="rsvp" class="sticky top-0 z-10 min-h-screen overflow-hidden bg-blush-band px-6 py-20 text-center">
+<section id="rsvp" class="relative z-10 min-h-svh overflow-hidden bg-blush-band px-4 py-16 text-center sm:px-6 sm:py-20">
   <GhostNumeral number="07" size="220px" left="50%" />
 
   <div class="relative z-10">
-    <p class="font-display text-5xl italic text-ink" style="font-family: var(--font-display)">
-      Confirme presença
-    </p>
+    <p class="font-display text-4xl italic text-ink sm:text-5xl">Confirme presença</p>
     <Flourish />
     <p class="mx-auto mb-9 max-w-sm text-xs text-muted">
       responda até {eventConfig.rsvpDeadline.display} · sua confirmação e a dos seus
@@ -21,3 +19,15 @@ import { eventConfig } from '@/data/event';
     <RsvpWizard client:visible />
   </div>
 </section>
+
+<style>
+  /* The footer-curtain effect only works if the whole section fits on
+     screen. On short or narrow viewports a pinned section would hide
+     its own bottom under the footer, so it stays a normal block there. */
+  @media (min-width: 768px) and (min-height: 860px) {
+    #rsvp {
+      position: sticky;
+      top: 0;
+    }
+  }
+</style>

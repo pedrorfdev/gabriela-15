@@ -1,37 +1,48 @@
 ---
-// src/components/sections/Details.astro
-import { IconCalendar, IconClock, IconMapPin, IconShirt } from '@tabler/icons-react';
-import Flourish from '@/components/ui/Flourish.astro';
 import GhostNumeral from '@/components/ui/GhostNumeral.astro';
 import { eventConfig } from '@/data/event';
 
+const eventDate = new Date(eventConfig.date.iso);
+
+function formatDate(options: Intl.DateTimeFormatOptions): string {
+  return new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', ...options }).format(eventDate);
+}
+
+const day = formatDate({ day: '2-digit' });
+const month = formatDate({ month: 'short' }).replace('.', '');
+const year = formatDate({ year: 'numeric' });
+
 const rows = [
-  { icon: IconCalendar, label: 'Data', value: eventConfig.date.displayDate, color: '#9C4F68' },
-  { icon: IconClock, label: 'Horário', value: eventConfig.date.displayTime, color: '#B08A4A' },
-  { icon: IconMapPin, label: 'Local', value: eventConfig.venue.name, color: '#7C8768' },
-  { icon: IconShirt, label: eventConfig.dressCode.title, value: eventConfig.dressCode.description, color: '#9C4F68' },
+  { label: 'Horário', value: eventConfig.date.displayTime },
+  { label: 'Local', value: eventConfig.venue.name },
+  { label: eventConfig.dressCode.title, value: eventConfig.dressCode.description },
 ];
 ---
 
-<section id="details" class="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-bg">
-  <div id="details-card" class="relative mx-auto w-[80%] min-h-screen overflow-hidden px-6 py-20 sm:px-16">
+<section id="details" class="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-bg">
+  <div
+    id="details-card"
+    class="relative mx-auto flex min-h-svh w-[90%] items-center justify-center overflow-hidden px-4 py-16 sm:w-[80%] sm:px-16 sm:py-20"
+  >
     <GhostNumeral number="01" size="260px" left="20px" />
 
-    <div class="relative z-10 mx-auto w-[92%] max-w-6xl rounded-2xl bg-surface p-8 sm:p-12">
-      <div class="mb-10">
-        <p class="font-display text-5xl italic text-ink sm:text-6xl">Detalhes</p>
-        <Flourish align="left" />
-        <p class="text-base text-muted">tudo que você precisa saber pra não perder nada desse dia</p>
+    <div class="ticket relative z-10 flex w-full max-w-3xl flex-col rounded-2xl bg-surface sm:flex-row">
+      <div
+        class="ticket-stub flex flex-none flex-col items-center justify-center border-b-2 border-dashed border-accent/30 px-2 sm:border-b-0 sm:border-r-2"
+      >
+        <p class="text-[11px] uppercase tracking-[0.15em] text-muted sm:text-xs">{month}</p>
+        <p class="font-display text-7xl italic leading-none text-accent sm:text-8xl">{day}</p>
+        <p class="text-[11px] uppercase tracking-[0.15em] text-muted sm:text-xs">{year}</p>
       </div>
 
-      <div>
+      <div class="flex-1 px-6 py-6 sm:px-10 sm:py-9">
+        <p class="text-[11px] uppercase tracking-[0.15em] text-gold sm:text-xs">Detalhes</p>
+        <p class="mb-3 mt-1 font-display text-3xl italic text-ink sm:text-4xl">Seu lugar na festa</p>
+
         {rows.map((row) => (
-          <div class="flex items-center justify-between border-b border-black/8 py-5 last:border-none">
-            <span class="flex items-center gap-3">
-              <row.icon size={20} style={{ color: row.color }} />
-              <span class="text-xs uppercase tracking-wide text-muted">{row.label}</span>
-            </span>
-            <span class="text-lg font-medium text-ink">{row.value}</span>
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-border py-4 last:border-none">
+            <span class="text-xs uppercase tracking-wide text-muted">{row.label}</span>
+            <span class="text-right text-lg font-medium text-ink">{row.value}</span>
           </div>
         ))}
       </div>
@@ -54,6 +65,41 @@ const rows = [
     0%, 100% { border-top-left-radius: 24px; border-top-right-radius: 24px; }
     33% { border-top-left-radius: 56px; border-top-right-radius: 16px; }
     66% { border-top-left-radius: 16px; border-top-right-radius: 56px; }
+  }
+
+  /* Ticket notches: two half-height masks punch a circle out of the
+     tear line. Vertical layout on mobile, horizontal from 640px up. */
+  .ticket {
+    --notch: 12px;
+    --notch-edge: calc(var(--notch) + 1px);
+    --stub-size: 150px;
+    -webkit-mask:
+      radial-gradient(circle at 0 var(--stub-size), #0000 var(--notch), #000 var(--notch-edge)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--stub-size), #0000 var(--notch), #000 var(--notch-edge)) right / 51% 100% no-repeat;
+    mask:
+      radial-gradient(circle at 0 var(--stub-size), #0000 var(--notch), #000 var(--notch-edge)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--stub-size), #0000 var(--notch), #000 var(--notch-edge)) right / 51% 100% no-repeat;
+  }
+
+  .ticket-stub {
+    height: var(--stub-size);
+  }
+
+  @media (min-width: 640px) {
+    .ticket {
+      --stub-size: 190px;
+      -webkit-mask:
+        radial-gradient(circle at var(--stub-size) 0, #0000 var(--notch), #000 var(--notch-edge)) top / 100% 51% no-repeat,
+        radial-gradient(circle at var(--stub-size) 100%, #0000 var(--notch), #000 var(--notch-edge)) bottom / 100% 51% no-repeat;
+      mask:
+        radial-gradient(circle at var(--stub-size) 0, #0000 var(--notch), #000 var(--notch-edge)) top / 100% 51% no-repeat,
+        radial-gradient(circle at var(--stub-size) 100%, #0000 var(--notch), #000 var(--notch-edge)) bottom / 100% 51% no-repeat;
+    }
+
+    .ticket-stub {
+      width: var(--stub-size);
+      height: auto;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
