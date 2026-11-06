@@ -1,0 +1,165 @@
+/* The ticket is four tiles in a grid, and they never change.
+   whole = zero gaps (reads as one ticket)
+   torn  = the two halves pull apart, edges turn jagged
+   bento = tiles settle with gaps and rounded corners */
+
+.details-section {
+  background: linear-gradient(135deg, #e3b9c8 0%, #d8c08a 50%, #a3ae8c 100%);
+}
+
+.details-stage {
+  --duration: 700ms;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gap: 0px;
+  --tooth: 10px;
+  --bento-radius: 14px;
+  --perforation: color-mix(in srgb, var(--color-accent) 35%, transparent);
+
+  /* mobile: halves stacked, tear runs horizontally */
+  --shift-start: translate(0, -14px) rotate(-1deg);
+  --shift-end: translate(0, 14px) rotate(1deg);
+  --clip-start-whole: polygon(0 0, 100% 0, 100% 100%, 91.66% 100%, 83.33% 100%, 75% 100%, 66.66% 100%, 58.33% 100%, 50% 100%, 41.66% 100%, 33.33% 100%, 25% 100%, 16.66% 100%, 8.33% 100%, 0 100%);
+  --clip-start-torn: polygon(0 0, 100% 0, 100% 100%, 91.66% calc(100% - var(--tooth)), 83.33% 100%, 75% calc(100% - var(--tooth)), 66.66% 100%, 58.33% calc(100% - var(--tooth)), 50% 100%, 41.66% calc(100% - var(--tooth)), 33.33% 100%, 25% calc(100% - var(--tooth)), 16.66% 100%, 8.33% calc(100% - var(--tooth)), 0 100%);
+  --clip-end-whole: polygon(0 0, 8.33% 0, 16.66% 0, 25% 0, 33.33% 0, 41.66% 0, 50% 0, 58.33% 0, 66.66% 0, 75% 0, 83.33% 0, 91.66% 0, 100% 0, 100% 100%, 0 100%);
+  --clip-end-torn: polygon(0 0, 8.33% 0, 16.66% var(--tooth), 25% 0, 33.33% var(--tooth), 41.66% 0, 50% var(--tooth), 58.33% 0, 66.66% var(--tooth), 75% 0, 83.33% var(--tooth), 91.66% 0, 100% 0, 100% 100%, 0 100%);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+  transition: gap var(--duration) var(--ease);
+}
+
+.details-stage[data-state='bento'] {
+  --gap: 12px;
+}
+
+.details-half {
+  transition:
+    transform var(--duration) var(--ease),
+    clip-path var(--duration) ease;
+}
+
+.details-half--start {
+  display: flex;
+  clip-path: var(--clip-start-whole);
+}
+
+.details-half--end {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'time place'
+    'dress dress';
+  gap: var(--gap);
+  clip-path: var(--clip-end-whole);
+  transition:
+    transform var(--duration) var(--ease),
+    clip-path var(--duration) ease,
+    gap var(--duration) var(--ease);
+}
+
+.details-stage[data-state='torn'] .details-half--start {
+  transform: var(--shift-start);
+  clip-path: var(--clip-start-torn);
+}
+
+.details-stage[data-state='torn'] .details-half--end {
+  transform: var(--shift-end);
+  clip-path: var(--clip-end-torn);
+}
+
+.details-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 112px;
+  padding: 16px 18px;
+  background: var(--color-surface);
+  border: 0.5px solid var(--color-border);
+  border-radius: var(--tile-radius, 0);
+  transition: border-radius var(--duration) var(--ease);
+}
+
+.details-tile--date {
+  position: relative;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 168px;
+  text-align: center;
+  --tile-radius: 16px 16px 0 0;
+}
+
+.details-tile--time {
+  grid-area: time;
+}
+
+.details-tile--place {
+  grid-area: place;
+}
+
+.details-tile--dress {
+  grid-area: dress;
+  --tile-radius: 0 0 16px 16px;
+}
+
+.details-stage[data-state='bento'] .details-tile {
+  --tile-radius: var(--bento-radius);
+}
+
+/* tear line between the stub and the body, only while it's still a ticket */
+.details-tile--date::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -1px;
+  border-bottom: 2px dashed var(--perforation);
+  pointer-events: none;
+  transition: opacity var(--duration) ease;
+}
+
+.details-stage:not([data-state='whole']) .details-tile--date::after {
+  opacity: 0;
+}
+
+@media (min-width: 640px) {
+  .details-stage {
+    /* desktop: halves side by side, tear runs vertically */
+    --shift-start: translate(-20px, 0) rotate(-2deg);
+    --shift-end: translate(20px, 0) rotate(2deg);
+    --clip-start-whole: polygon(0 0, 100% 0, 100% 8.33%, 100% 16.66%, 100% 25%, 100% 33.33%, 100% 41.66%, 100% 50%, 100% 58.33%, 100% 66.66%, 100% 75%, 100% 83.33%, 100% 91.66%, 100% 100%, 0 100%);
+    --clip-start-torn: polygon(0 0, 100% 0, calc(100% - var(--tooth)) 8.33%, 100% 16.66%, calc(100% - var(--tooth)) 25%, 100% 33.33%, calc(100% - var(--tooth)) 41.66%, 100% 50%, calc(100% - var(--tooth)) 58.33%, 100% 66.66%, calc(100% - var(--tooth)) 75%, 100% 83.33%, calc(100% - var(--tooth)) 91.66%, 100% 100%, 0 100%);
+    --clip-end-whole: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 91.66%, 0 83.33%, 0 75%, 0 66.66%, 0 58.33%, 0 50%, 0 41.66%, 0 33.33%, 0 25%, 0 16.66%, 0 8.33%);
+    --clip-end-torn: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 91.66%, var(--tooth) 83.33%, 0 75%, var(--tooth) 66.66%, 0 58.33%, var(--tooth) 50%, 0 41.66%, var(--tooth) 33.33%, 0 25%, var(--tooth) 16.66%, 0 8.33%);
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  }
+
+  .details-half--end {
+    min-height: 264px;
+  }
+
+  .details-tile--date {
+    min-height: 0;
+    --tile-radius: 16px 0 0 16px;
+  }
+
+  .details-tile--place {
+    --tile-radius: 0 16px 0 0;
+  }
+
+  .details-tile--dress {
+    --tile-radius: 0 0 16px 0;
+  }
+
+  .details-tile--date::after {
+    top: 14px;
+    bottom: 14px;
+    left: auto;
+    right: -1px;
+    border-bottom: 0;
+    border-right: 2px dashed var(--perforation);
+  }
+}
