@@ -116,9 +116,9 @@ export const seedMessages: SeedMessage[] = [
 ];
 
 export const navLinks: NavLink[] = [
-  { label: 'Detalhes', href: '#details' },
-  { label: 'Mapa', href: '#venue' },
-  { label: 'Presentes', href: '#gifts' },
-  { label: 'Galeria', href: '#gallery' },
-  { label: 'Mensagens', href: '#messages' },
+  { label: 'Detalhes', href: '/#details' },
+  { label: 'Mapa', href: '/#venue' },
+  { label: 'Presentes', href: '/presentes' },
+  { label: 'Galeria', href: '/#gallery' },
+  { label: 'Mensagens', href: '/#messages' },
 ];

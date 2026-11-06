@@ -1,5 +1,8 @@
 ---
 import '@/styles/global.css';
+import PasswordGate from '@/components/islands/PasswordGate';
+import NavDrawer from '@/components/islands/NavDrawer';
+import BackToTop from '@/components/ui/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -33,17 +36,24 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
     </script>
   </head>
   <body>
+    <PasswordGate client:load />
+    <NavDrawer client:idle />
+    <BackToTop />
+
     <slot />
 
     <script>
+      // Smooth-scrolls any link that points at an anchor on the page we're
+      // already on ("#rsvp" or "/#rsvp"). Links to other pages, like
+      // "/presentes", keep the browser's normal navigation.
       document.addEventListener('click', (event) => {
-        const link = (event.target as HTMLElement).closest('a[href^="#"]');
+        const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href*="#"]');
         if (!link) return;
 
-        const targetId = link.getAttribute('href');
-        if (!targetId || targetId === '#') return;
+        const url = new URL(link.href, window.location.href);
+        if (url.pathname !== window.location.pathname || !url.hash) return;
 
-        const target = document.querySelector(targetId);
+        const target = document.querySelector(url.hash);
         if (!target) return;
 
         event.preventDefault();

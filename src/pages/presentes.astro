@@ -1,0 +1,58 @@
+---
+import { IconArrowLeft } from '@tabler/icons-react';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Flourish from '@/components/ui/Flourish.astro';
+import GeoCircle from '@/components/ui/GeoCircle.astro';
+import PixCopyCard from '@/components/islands/PixCopyCard';
+import { eventConfig } from '@/data/event';
+import { giftsPage } from '@/data/gifts';
+import { giftIcons } from '@/lib/giftIcons';
+
+const tints = ['bg-accent/10 text-accent', 'bg-gold/15 text-gold', 'bg-sage/20 text-sage'];
+const { pix } = giftsPage;
+---
+
+<BaseLayout title={`Presentes · ${eventConfig.person.name}`}>
+  <main class="relative min-h-svh overflow-hidden bg-bg px-4 py-16 sm:px-12 sm:py-24">
+    <GeoCircle size="240px" color="rgba(212, 175, 106, 0.25)" top="-90px" right="-70px" />
+
+    <div class="relative z-10 mx-auto max-w-3xl">
+      <a
+        href="/#gifts"
+        class="mb-8 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
+      >
+        <IconArrowLeft size={16} />
+        Voltar ao convite
+      </a>
+
+      <h1 class="font-display text-5xl italic text-ink sm:text-6xl">Presentes</h1>
+      <Flourish align="left" />
+      <p class="mb-10 text-base text-muted">{giftsPage.intro}</p>
+
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {giftsPage.categories.map((category, index) => {
+          const Icon = giftIcons[category.icon];
+          return (
+            <li class="flex items-center gap-4 rounded-2xl border border-border bg-surface p-5">
+              <span class={`flex h-11 w-11 flex-none items-center justify-center rounded-full ${tints[index % tints.length]}`}>
+                <Icon size={20} />
+              </span>
+              <div>
+                <p class="text-base font-medium text-ink">{category.title}</p>
+                {category.hint && <p class="text-sm text-muted">{category.hint}</p>}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      {
+        pix.enabled && (
+          <div class="mt-8">
+            <PixCopyCard client:visible title={pix.title} description={pix.description} pixKey={pix.key} />
+          </div>
+        )
+      }
+    </div>
+  </main>
+</BaseLayout>
