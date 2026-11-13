@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { motion, useMotionValue, useTransform, animate } from 'motion/react';
+import { animate, motion, useMotionValue, useTransform } from 'motion/react';
+import { IconChevronRight } from '@tabler/icons-react';
 
 interface SwipeToConfirmProps {
   /** Resolves true when the password was accepted, false to reset the slider. */
@@ -7,7 +8,9 @@ interface SwipeToConfirmProps {
   disabled?: boolean;
 }
 
+// Track geometry is tied to the drag math below, so it lives here as numbers.
 const TRACK_WIDTH = 220;
+const TRACK_HEIGHT = 46;
 const HANDLE_SIZE = 38;
 const MAX_TRAVEL = TRACK_WIDTH - HANDLE_SIZE - 8;
 const CONFIRM_RATIO = 0.9;
@@ -21,7 +24,7 @@ export default function SwipeToConfirm({ onConfirm, disabled }: SwipeToConfirmPr
   async function handleDragEnd() {
     if (disabled || isConfirming) return;
 
-    // 90% of the travel counts — exact-end comparisons are fragile with
+    // 90% of the travel counts: exact-end comparisons are fragile with
     // floating point and the drag elasticity.
     if (x.get() < MAX_TRAVEL * CONFIRM_RATIO) {
       animate(x, 0, SPRING);
@@ -41,7 +44,7 @@ export default function SwipeToConfirm({ onConfirm, disabled }: SwipeToConfirmPr
   return (
     <div
       className="relative mx-auto flex items-center rounded-full border border-border bg-surface"
-      style={{ width: TRACK_WIDTH, height: 46 }}
+      style={{ width: TRACK_WIDTH, height: TRACK_HEIGHT }}
     >
       <motion.span
         className="pointer-events-none absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-wide text-muted"
@@ -56,9 +59,9 @@ export default function SwipeToConfirm({ onConfirm, disabled }: SwipeToConfirmPr
         dragElastic={0.05}
         onDragEnd={handleDragEnd}
         style={{ x, width: HANDLE_SIZE, height: HANDLE_SIZE }}
-        className="ml-1 flex cursor-grab items-center justify-center rounded-full bg-accent active:cursor-grabbing"
+        className="ml-1 flex cursor-grab touch-none items-center justify-center rounded-full bg-action text-on-action active:cursor-grabbing"
       >
-        <span className="text-white">›</span>
+        <IconChevronRight size={18} />
       </motion.div>
     </div>
   );
