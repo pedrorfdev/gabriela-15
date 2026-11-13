@@ -4,8 +4,10 @@ import { IconArrowUp } from '@tabler/icons-react';
 
 <button
   id="back-to-top"
+  type="button"
   aria-label="Voltar ao topo"
-  class="fixed bottom-6 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-surface text-ink opacity-0 shadow-none transition-opacity duration-300"
+  data-visible="false"
+  class="invisible fixed bottom-6 left-6 z-40 flex size-12 items-center justify-center rounded-full border border-border bg-surface text-ink opacity-0 transition-[opacity,visibility] duration-300 hover:text-accent data-[visible=true]:visible data-[visible=true]:opacity-100"
 >
   <IconArrowUp size={18} />
 </button>
@@ -15,18 +17,13 @@ import { IconArrowUp } from '@tabler/icons-react';
     const button = document.getElementById('back-to-top');
     if (!button) return;
 
-    function updateVisibility() {
-      const scrolledPastHero = window.scrollY > window.innerHeight * 0.6;
-      button!.style.opacity = scrolledPastHero ? '1' : '0';
-      button!.style.pointerEvents = scrolledPastHero ? 'auto' : 'none';
-    }
+    const update = () => {
+      button.dataset.visible = String(window.scrollY > window.innerHeight * 0.6);
+    };
 
-    button.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    window.addEventListener('scroll', updateVisibility, { passive: true });
-    updateVisibility();
+    button.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    window.addEventListener('scroll', update, { passive: true });
+    update();
   }
 
   initBackToTop();
