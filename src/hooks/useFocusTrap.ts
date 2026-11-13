@@ -1,9 +1,19 @@
-import { useEffect, type RefObject } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
 
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-export function useFocusTrap(containerRef: RefObject<HTMLElement>, onEscape: () => void) {
+/**
+ * Traps Tab focus inside a dialog and calls onEscape when Escape is pressed.
+ * Shared by every dialog in the project instead of each one reimplementing it.
+ */
+export function useFocusTrap(containerRef: RefObject<HTMLElement | null>, onEscape: () => void) {
+  const onEscapeRef = useRef(onEscape);
+
+  useEffect(() => {
+    onEscapeRef.current = onEscape;
+  });
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -15,7 +25,7 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement>, onEscape: () 
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
-        onEscape();
+        onEscapeRef.current();
         return;
       }
       if (event.key !== 'Tab' || focusables.length === 0) return;
@@ -31,5 +41,5 @@ export function useFocusTrap(containerRef: RefObject<HTMLElement>, onEscape: () 
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [containerRef, onEscape]);
+  }, [containerRef]);
 }

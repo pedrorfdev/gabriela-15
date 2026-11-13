@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import PasswordGate from '@/components/islands/PasswordGate';
 import NavDrawer from '@/components/islands/NavDrawer';
 import BackToTop from '@/components/ui/BackToTop.astro';
+import { STORAGE_KEYS } from '@/lib/constants';
 
 interface Props {
   title: string;
@@ -28,11 +29,37 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <script is:inline>
-      const storedTheme = localStorage.getItem('theme');
-      if (storedTheme === 'dark' || storedTheme === 'light') {
-        document.documentElement.classList.add(storedTheme);
-      }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;1,500&family=Jost:wght@400;500&display=swap"
+    />
+
+    <script is:inline define:vars={{ gateKey: STORAGE_KEYS.gateUnlocked }}>
+      // Runs before first paint: resolves the theme (manual choice first, then
+      // the system setting) and tells CSS whether the gate was already passed.
+      (function () {
+        var root = document.documentElement;
+        var media = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function read(key) {
+          try {
+            return localStorage.getItem(key);
+          } catch (error) {
+            return null;
+          }
+        }
+
+        function applyTheme() {
+          var stored = read('theme');
+          root.classList.toggle('dark', stored ? stored === 'dark' : media.matches);
+        }
+
+        applyTheme();
+        media.addEventListener('change', applyTheme);
+        root.dataset.unlocked = String(read(gateKey) === 'true');
+      })();
     </script>
   </head>
   <body>
@@ -45,7 +72,7 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
     <script>
       // Smooth-scrolls any link that points at an anchor on the page we're
       // already on ("#rsvp" or "/#rsvp"). Links to other pages, like
-      // "/presentes", keep the browser's normal navigation.
+      // "/gifts", keep the browser's normal navigation.
       document.addEventListener('click', (event) => {
         const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[href*="#"]');
         if (!link) return;

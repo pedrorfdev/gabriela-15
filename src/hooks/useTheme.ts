@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark';
+
 const STORAGE_KEY = 'theme';
 
-function getSystemTheme(): Theme {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+function readActiveTheme(): Theme {
+  return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 }
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    setTheme(stored === 'dark' || stored === 'light' ? stored : getSystemTheme());
+    setTheme(readActiveTheme());
   }, []);
 
   function toggleTheme() {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(next);
-    localStorage.setItem(STORAGE_KEY, next);
+    document.documentElement.classList.toggle('dark', next === 'dark');
+
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // Private mode: the choice simply won't persist.
+    }
     setTheme(next);
   }
 
