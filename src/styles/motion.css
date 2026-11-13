@@ -1,0 +1,25 @@
+/* CSS-only animations shared by more than one component.
+   One-off animations stay in the component that owns them. */
+
+@keyframes shine {
+  to { background-position: -200% center; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@theme {
+  --animate-pulse-ring: pulse-ring 2.6s ease-out infinite;
+}
+
+/* Brand-pink gradient sweeping across text. Use with `font-display`. */
+@utility text-shine {
+  background-image: linear-gradient(100deg, var(--c-brand) 35%, var(--c-soft) 50%, var(--c-brand) 65%);
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shine 7s linear infinite;
+}

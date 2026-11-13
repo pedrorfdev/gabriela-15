@@ -1,11 +1,11 @@
-import { IconFlower, IconBrush, IconShirt, IconBook, IconGift } from '@tabler/icons-react';
+import { IconDiamond, IconFlower, IconGift, IconShirt, IconShoe } from '@tabler/icons-react';
 
 /** Icons a gift category can use. Add a new one here and it becomes valid in data/gifts.ts. */
 export const giftIcons = {
-  flower: IconFlower,
-  brush: IconBrush,
   shirt: IconShirt,
-  book: IconBook,
+  flower: IconFlower,
+  diamond: IconDiamond,
+  shoe: IconShoe,
   gift: IconGift,
 } as const;
 

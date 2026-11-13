@@ -1,0 +1,64 @@
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+
+  --c-bg: #fffafb;
+  --c-surface: #ffffff;
+  --c-band: #fae3ea;
+  --c-ink: #262626;
+  --c-muted: #5f5f5f;
+  --c-line: #a3a3a3;
+  --c-brand: #e82a89;
+  --c-accent: #c2246f;
+  --c-action: #c2246f;
+  --c-on-action: #ffffff;
+  --c-soft: #e67e9d;
+  --c-border: rgb(0 0 0 / 0.08);
+  --c-border-strong: rgb(0 0 0 / 0.15);
+}
+
+/* Derived from the brand palette, not provided by the designer: check by eye. */
+:root.dark {
+  color-scheme: dark;
+
+  --c-bg: #171114;
+  --c-surface: #221a1e;
+  --c-band: #2a1d24;
+  --c-ink: #f4eef0;
+  --c-muted: #b8aab0;
+  --c-line: #6b6b6b;
+  --c-brand: #f0509e;
+  --c-accent: #f0509e;
+  --c-action: #c2246f;
+  --c-on-action: #ffffff;
+  --c-soft: #a8456c;
+  --c-border: rgb(255 255 255 / 0.1);
+  --c-border-strong: rgb(255 255 255 / 0.2);
+}
+
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-band: var(--c-band);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-line);
+  --color-brand: var(--c-brand);
+  --color-accent: var(--c-accent);
+  --color-action: var(--c-action);
+  --color-on-action: var(--c-on-action);
+  --color-soft: var(--c-soft);
+  --color-border: var(--c-border);
+  --color-border-strong: var(--c-border-strong);
+}
+
+@theme {
+  --font-display: 'Bodoni Moda', serif;
+  --font-sans: 'Jost', system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+  --radius-tile: 1rem;
+
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+}

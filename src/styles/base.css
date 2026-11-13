@@ -1,0 +1,50 @@
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--c-bg);
+    color: var(--c-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--c-soft);
+    color: var(--c-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 3px;
+  }
+}
+
+html[data-unlocked='true'] [data-gate] {
+  display: none;
+}
+
+@media (min-width: 1024px) and (hover: hover) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  section,
+  footer {
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

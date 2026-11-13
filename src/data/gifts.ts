@@ -14,25 +14,24 @@ export interface PixInfo {
   key: string;
 }
 
-// TODO: confirm categories with the birthday girl.
 const categories: GiftCategory[] = [
-  { id: 'perfumes', icon: 'flower', title: 'Perfumes', hint: 'ex.: O Boticário' },
-  { id: 'beauty', icon: 'brush', title: 'Maquiagem e skincare', hint: 'kits, cuidados com a pele' },
-  { id: 'fashion', icon: 'shirt', title: 'Roupas e acessórios', hint: 'bolsas, bijuterias' },
-  { id: 'books', icon: 'book', title: 'Livros', hint: 'ficção, diários, arte' },
+  { id: 'clothing', icon: 'shirt', title: 'Roupas', hint: 'tamanho M / 40' },
+  { id: 'perfume', icon: 'flower', title: 'Perfumes', hint: 'florais e doces' },
+  { id: 'jewelry', icon: 'diamond', title: 'Joias', hint: 'prata e dourado, berloque' },
+  { id: 'shoes', icon: 'shoe', title: 'Calçados', hint: 'número 38/39' },
 ];
 
-// TODO: real key. Prefer a random key or email over CPF/phone: anyone who
-// gets past the gate can read it.
+// Hidden until the family confirms a key. Prefer a random key or email over
+// CPF/phone: anyone who gets past the gate can read it.
 const pix: PixInfo = {
-  enabled: true,
+  enabled: false,
   title: 'Prefere contribuir?',
   description: 'Chave Pix da família',
   key: 'TODO: chave pix',
 };
 
 export const giftsPage = {
-  intro: 'Sem lista fechada: escolha o que combina com a Gabi.',
+  intro: 'Algumas pistas do que a Gabi gosta, para te ajudar a escolher.',
   categories,
   pix,
 };
