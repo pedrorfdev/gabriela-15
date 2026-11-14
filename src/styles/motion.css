@@ -23,3 +23,30 @@
   color: transparent;
   animation: shine 7s linear infinite;
 }
+
+/* Scroll reveal. Elements marked `data-reveal` start hidden and get the
+   `is-visible` class from src/scripts/reveal.ts the first time they enter the
+   viewport. `data-from` (left, right, bottom) picks where they slide in from. */
+@utility reveal {
+  opacity: 0;
+  transition-property: opacity, translate;
+  transition-duration: 0.7s;
+  transition-timing-function: var(--ease-snap);
+
+  &[data-from='left'] { translate: -4rem 0; }
+  &[data-from='right'] { translate: 4rem 0; }
+  &[data-from='bottom'] { translate: 0 1.5rem; }
+
+  &.is-visible {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal[data-from] {
+    opacity: 1;
+    translate: none;
+  }
+}
