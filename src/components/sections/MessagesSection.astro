@@ -7,12 +7,16 @@ import { eventConfig } from '@/data/event';
 
 <section
   id="messages"
-  class="relative flex min-h-[75vh] flex-col items-center justify-center overflow-hidden bg-blush-band px-6 py-16 sm:px-16"
+  class="relative flex min-h-[75svh] flex-col items-center justify-center overflow-hidden bg-bg px-4 py-16 sm:px-12"
 >
-  <IconMail size={420} className="pointer-events-none absolute -right-16 -top-16 text-ink/3" />
+  <IconMail
+    size={420}
+    className="pointer-events-none absolute -right-16 -top-16 text-ink/[0.03]"
+    aria-hidden="true"
+  />
 
-  <div class="relative z-10 mx-auto max-w-3xl text-center">
-    <p class="font-display text-5xl italic text-ink sm:text-6xl">Mensagens</p>
+  <div class="relative z-10 mx-auto w-full max-w-3xl text-center">
+    <h2 class="font-display text-4xl italic text-ink sm:text-5xl lg:text-6xl">Mensagens</h2>
     <Flourish />
     <p class="mb-12 text-base text-muted">recados de quem ama a {eventConfig.person.name}</p>
 
