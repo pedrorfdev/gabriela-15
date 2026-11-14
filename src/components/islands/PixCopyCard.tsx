@@ -26,7 +26,7 @@ export default function PixCopyCard({ title, description, pixKey }: PixCopyCardP
   }
 
   return (
-    <div className="rounded-2xl bg-blush-band p-5 sm:p-6">
+    <div className="rounded-card bg-band p-5 sm:p-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-base font-medium text-ink">{title}</p>
@@ -34,8 +34,9 @@ export default function PixCopyCard({ title, description, pixKey }: PixCopyCardP
         </div>
 
         <button
+          type="button"
           onClick={handleCopy}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-xs uppercase tracking-wide text-white transition-colors hover:bg-accent-deep"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-action px-5 py-3 text-xs uppercase tracking-wide text-on-action transition-colors hover:bg-action/90"
         >
           {status === 'copied' ? <IconCheck size={16} /> : <IconCopy size={16} />}
           {status === 'copied' ? 'Chave copiada' : 'Copiar chave'}
