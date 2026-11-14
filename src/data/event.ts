@@ -5,7 +5,7 @@ export interface Recommendation {
   name: string;
   description: string;
   mapsUrl: string;
-  imageColor: string;
+  image?: string;
 }
 
 export interface GiftOption {
@@ -90,7 +90,7 @@ export const recommendations: Recommendation[] = [
     name: 'TODO: real hotel name',
     description: 'Conforto e praticidade perto do salão.',
     mapsUrl: '',
-    imageColor: '#D9A3B8',
+    image: '#D9A3B8',
   },
   {
     id: 'salon-1',
@@ -99,7 +99,7 @@ export const recommendations: Recommendation[] = [
     name: 'TODO: real studio name',
     description: 'Cabelo e maquiagem — vale reservar com antecedência.',
     mapsUrl: '',
-    imageColor: '#D8C08A',
+    image: '#D8C08A',
   },
 ];
 
