@@ -10,3 +10,6 @@ export const giftIcons = {
 } as const;
 
 export type GiftIconName = keyof typeof giftIcons;
+
+/** Alternating icon-circle colors, so neighbouring categories don't look identical. */
+export const giftTints = ['bg-brand/10 text-brand', 'bg-band text-accent'] as const;
