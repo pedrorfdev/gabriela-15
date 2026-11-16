@@ -2,9 +2,10 @@
 import DecorativeMap from '@/components/ui/DecorativeMap.astro';
 import Flourish from '@/components/ui/Flourish.astro';
 import { recommendations } from '@/data/event';
+import { recommendationIcons } from '@/lib/recommendationIcons';
 
 // Placeholder tints for items that don't have a photo yet.
-const PLACEHOLDERS = ['from-band to-soft', 'from-line/30 to-band'];
+const PLACEHOLDER_TINTS = ['from-band to-soft', 'from-line/30 to-band'];
 ---
 
 <section id="recommendations" class="overflow-hidden bg-surface px-4 py-16 sm:px-12 sm:py-24">
@@ -15,45 +16,51 @@ const PLACEHOLDERS = ['from-band to-soft', 'from-line/30 to-band'];
 
       <ul class="flex flex-col gap-3">
         {
-          recommendations.map((item, index) => (
-            <li data-reveal data-from={index % 2 === 0 ? 'left' : 'right'} class="reveal">
-              <article class="flex flex-col gap-4 rounded-card p-4 transition-colors hover:bg-brand/5 sm:flex-row sm:items-center sm:gap-6">
-                {item.image ? (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    loading="lazy"
-                    class="h-40 w-full flex-none rounded-tile object-cover sm:h-24 sm:w-32"
-                  />
-                ) : (
-                  <div
-                    class:list={[
-                      'h-40 w-full flex-none rounded-tile bg-linear-to-br sm:h-24 sm:w-32',
-                      PLACEHOLDERS[index % PLACEHOLDERS.length],
-                    ]}
-                  />
-                )}
-
-                <div>
-                  <span class="rounded-full bg-band px-3 py-1 text-[11px] uppercase tracking-wide text-accent">
-                    {item.categoryLabel}
-                  </span>
-                  <h3 class="mt-3 font-display text-2xl italic text-ink">{item.name}</h3>
-                  <p class="text-base text-muted">{item.description}</p>
-                  {item.mapsUrl && (
-                    <a
-                      href={item.mapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="mt-2 inline-block text-xs uppercase tracking-wide text-accent underline-offset-4 hover:underline"
+          recommendations.map((item, index) => {
+            const Icon = recommendationIcons[item.category];
+            return (
+              <li data-reveal data-from={index % 2 === 0 ? 'left' : 'right'} class="reveal">
+                <article class="flex flex-col gap-4 rounded-card p-4 transition-colors hover:bg-brand/5 sm:flex-row sm:items-center sm:gap-6">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      class="h-44 w-full flex-none rounded-tile object-cover sm:size-36"
+                    />
+                  ) : (
+                    <div
+                      aria-hidden="true"
+                      class:list={[
+                        'flex h-44 w-full flex-none items-center justify-center rounded-tile bg-linear-to-br text-brand sm:size-36',
+                        PLACEHOLDER_TINTS[index % PLACEHOLDER_TINTS.length],
+                      ]}
                     >
-                      Ver no mapa
-                    </a>
+                      <Icon size={52} stroke={1.5} />
+                    </div>
                   )}
-                </div>
-              </article>
-            </li>
-          ))
+
+                  <div>
+                    <span class="rounded-full bg-band px-3 py-1 text-[11px] uppercase tracking-wide text-accent">
+                      {item.categoryLabel}
+                    </span>
+                    <h3 class="mt-3 font-display text-2xl italic text-ink">{item.name}</h3>
+                    <p class="text-base text-muted">{item.description}</p>
+                    {item.mapsUrl && (
+                      <a
+                        href={item.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-2 inline-block text-xs uppercase tracking-wide text-accent underline-offset-4 hover:underline"
+                      >
+                        Ver no mapa
+                      </a>
+                    )}
+                  </div>
+                </article>
+              </li>
+            );
+          })
         }
       </ul>
     </div>

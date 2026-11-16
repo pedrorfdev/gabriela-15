@@ -25,7 +25,7 @@ function TilePreview({ tile, onClose }: { tile: Tile; onClose: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-ink/60 px-6"
+      className="fixed inset-0 z-9999 flex items-center justify-center bg-ink/60 px-6"
       variants={backdropFade}
       initial="hidden"
       animate="visible"
@@ -75,7 +75,7 @@ export default function GalleryPlaceholder() {
 
   return (
     <>
-      <div className="grid auto-rows-[84px] grid-flow-dense grid-cols-3 gap-2 sm:auto-rows-[120px]">
+      <div className="grid auto-rows-22 grid-flow-dense grid-cols-3 gap-2 sm:auto-rows-37.5 sm:gap-3 lg:auto-rows-52.5">
         {TILES.map((tile, index) => (
           <button
             key={index}
