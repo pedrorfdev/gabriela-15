@@ -14,11 +14,6 @@ export interface SeedMessage {
   message: string;
 }
 
-export interface SocialLink {
-  platform: 'instagram' | 'whatsapp';
-  url: string;
-}
-
 export interface NavLink {
   label: string;
   href: string;
@@ -55,11 +50,10 @@ export const eventConfig = {
     description: 'Esporte fino',
   },
   hashtag: '#XVGabiPeiche',
-
-  social: [
-    { platform: 'instagram', url: 'TODO: instagram link' },
-    { platform: 'whatsapp', url: 'TODO: wa.me link' },
-  ] as SocialLink[],
+  instagram: {
+    handle: '@TODO',
+    url: 'https://www.instagram.com/TODO/',
+  },
 
   credit: 'feito com carinho pelo irmão da aniversariante',
 

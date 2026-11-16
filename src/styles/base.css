@@ -20,19 +20,10 @@
   }
 }
 
+/* Returning guests: the head script in BaseLayout marks <html data-unlocked>
+   before first paint, so the gate never flashes before React hydrates. */
 html[data-unlocked='true'] [data-gate] {
   display: none;
-}
-
-@media (min-width: 1024px) and (hover: hover) {
-  html {
-    scroll-snap-type: y proximity;
-  }
-
-  section,
-  footer {
-    scroll-snap-align: start;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

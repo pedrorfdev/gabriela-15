@@ -1,12 +1,14 @@
 ---
+import { IconBrandInstagram } from '@tabler/icons-react';
 import Seal from '@/components/ui/Seal';
 import { eventConfig } from '@/data/event';
 
-const { person, date, credit, studio } = eventConfig;
+const { person, date, credit, studio, hashtag, instagram } = eventConfig;
+const hashtagUrl = `https://www.instagram.com/explore/tags/${hashtag.replace('#', '').toLowerCase()}/`;
 ---
 
 <footer
-  class="relative z-20 flex min-h-svh items-center justify-center rounded-t-card bg-action px-6 py-20 text-center text-on-action"
+  class="relative z-20 flex min-h-[80svh] items-center justify-center rounded-t-card bg-action px-6 py-20 text-center text-on-action"
 >
   <div class="mx-auto flex max-w-2xl flex-col items-center">
     <Seal tone="inverse" label={`Selo de ${person.name}, ${person.age} anos`} className="size-20 sm:size-24" />
@@ -21,7 +23,22 @@ const { person, date, credit, studio } = eventConfig;
       Confirmar presença
     </a>
 
-    <p class="mt-16 text-xs">
+    <div class="mt-12 flex flex-col items-center gap-3">
+      <a
+        href={instagram.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Instagram ${instagram.handle}`}
+        class="flex size-12 items-center justify-center rounded-full border border-on-action/40 transition-colors hover:bg-on-action/15"
+      >
+        <IconBrandInstagram size={22} />
+      </a>
+      <a href={hashtagUrl} target="_blank" rel="noopener noreferrer" class="text-sm underline-offset-4 hover:underline">
+        {hashtag}
+      </a>
+    </div>
+
+    <p class="mt-12 text-xs">
       {credit}
       {' · '}
       <a href={studio.url} class="underline underline-offset-2">{studio.name}</a>
