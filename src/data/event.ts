@@ -52,7 +52,6 @@ export const eventConfig = {
   hashtag: '#XVGabiPeiche',
   instagram: {
     handle: '@TODO',
-    url: 'https://www.instagram.com/TODO/',
   },
 
   credit: 'feito com carinho pelo irmão da aniversariante',
