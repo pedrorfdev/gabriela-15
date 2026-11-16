@@ -15,4 +15,5 @@ export default defineConfig({
     },
     envPrefix: 'GATE_HASH'
   },
+  site: 'https://www.xvgabipeiche.com.br'
 });
