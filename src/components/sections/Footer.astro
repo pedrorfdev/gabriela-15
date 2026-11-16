@@ -2,9 +2,8 @@
 import { IconBrandInstagram } from '@tabler/icons-react';
 import Seal from '@/components/ui/Seal';
 import { eventConfig } from '@/data/event';
-
-const { person, date, credit, studio, hashtag, instagram } = eventConfig;
-const hashtagUrl = `https://www.instagram.com/explore/tags/${hashtag.replace('#', '').toLowerCase()}/`;
+import { instagramLinks } from '@/lib/instagram'
+const { person, date, credit, studio, hashtag } = eventConfig;
 ---
 
 <footer
@@ -25,15 +24,15 @@ const hashtagUrl = `https://www.instagram.com/explore/tags/${hashtag.replace('#'
 
     <div class="mt-12 flex flex-col items-center gap-3">
       <a
-        href={instagram.url}
+        href={instagramLinks.profileUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Instagram ${instagram.handle}`}
+        aria-label={`Instagram ${instagramLinks.handle}`}
         class="flex size-12 items-center justify-center rounded-full border border-on-action/40 transition-colors hover:bg-on-action/15"
       >
         <IconBrandInstagram size={22} />
       </a>
-      <a href={hashtagUrl} target="_blank" rel="noopener noreferrer" class="text-sm underline-offset-4 hover:underline">
+      <a href={instagramLinks.hashtagUrl} target="_blank" rel="noopener noreferrer" class="text-sm underline-offset-4 hover:underline">
         {hashtag}
       </a>
     </div>
