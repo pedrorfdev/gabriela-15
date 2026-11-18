@@ -1,3 +1,9 @@
+/* Design tokens.
+   Raw values live in --c-*. Tailwind reads them through @theme inline, so
+   `bg-surface`, `text-brand`, `border-border`... all follow the active theme.
+   Dark mode is the `.dark` class on <html>, set before first paint by the
+   inline script in BaseLayout (manual choice first, then the system setting). */
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -16,6 +22,10 @@
   --c-soft: #e67e9d;
   --c-border: rgb(0 0 0 / 0.08);
   --c-border-strong: rgb(0 0 0 / 0.15);
+
+  /* Darkening layer and text color for anything drawn over a photo. Same in both themes. */
+  --c-scrim: rgb(23 17 20 / 0.45);
+  --c-on-photo: #ffffff;
 }
 
 /* Derived from the brand palette, not provided by the designer: check by eye. */
@@ -51,6 +61,8 @@
   --color-soft: var(--c-soft);
   --color-border: var(--c-border);
   --color-border-strong: var(--c-border-strong);
+  --color-scrim: var(--c-scrim);
+  --color-on-photo: var(--c-on-photo);
 }
 
 @theme {

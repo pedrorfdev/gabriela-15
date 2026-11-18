@@ -1,0 +1,84 @@
+---
+import Countdown from '@/components/islands/Countdown';
+import DetailTiles from '@/components/entrance/DetailTiles.astro';
+import TicketStub from '@/components/entrance/TicketStub.astro';
+import Seal from '@/components/ui/Seal';
+import { eventConfig } from '@/data/event';
+import { heroPhotos } from '@/data/photos';
+import '@/styles/entrance.css';
+
+const { person, date } = eventConfig;
+
+// The hidden placeholders and the flying copies must share these exact classes,
+// otherwise the measured positions would not match.
+const NAME = 'whitespace-nowrap font-display text-5xl italic leading-none sm:text-6xl';
+const FLYER = 'pointer-events-none absolute left-0 top-0 z-20 origin-top-left opacity-0';
+const STUB_HEIGHT = heroPhotos.length > 0 ? 'h-48' : 'h-20';
+---
+
+<section
+  id="details"
+  data-entrance
+  data-state="whole"
+  class="relative flex min-h-svh items-center justify-center overflow-x-clip bg-band px-4 py-12 sm:px-12"
+>
+  <div data-part="stage" class="relative w-full max-w-3xl">
+    <div class="mb-4 flex justify-center">
+      <Seal className="size-16" />
+    </div>
+
+    <div data-part="ticket" class="entrance-ticket relative flex flex-col sm:h-105 sm:flex-row">
+      <div
+        data-part="stub"
+        class:list={[
+          'entrance-piece entrance-stub relative shrink-0 overflow-hidden bg-surface sm:h-auto sm:w-44',
+          STUB_HEIGHT,
+        ]}
+      >
+        <TicketStub />
+      </div>
+
+      <div
+        data-part="body"
+        class="entrance-piece entrance-body relative grid min-h-85 flex-1 grid-cols-2 sm:grid-rows-[96px_1fr_1fr]"
+      >
+        <DetailTiles />
+
+        <div
+          data-part="hero"
+          class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
+        >
+          <p class="text-[11px] uppercase tracking-[0.15em] text-muted">você está convidado para os</p>
+          <p data-part="name-start" aria-hidden="true" class:list={['invisible mt-2', NAME]}>{person.name}</p>
+          <p class="mb-3 mt-2 font-display text-2xl italic text-muted">{person.age} anos</p>
+          <p class="text-[11px] uppercase tracking-[0.15em] text-muted">{date.displayDate} · {date.displayTime}</p>
+          <div data-part="countdown-start" aria-hidden="true" class="invisible mt-4">
+            <Countdown targetIso={date.iso} />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-center">
+      <a
+        href="#rsvp"
+        class="rounded-full bg-action px-8 py-3.5 text-xs uppercase tracking-wide text-on-action transition-colors hover:bg-action/90"
+      >
+        Confirmar presença
+      </a>
+    </div>
+
+    <h1 data-part="fly-name" class:list={[FLYER, 'text-brand', NAME]}>{person.name}</h1>
+    <div data-part="fly-countdown" class={FLYER}>
+      <Countdown client:load targetIso={date.iso} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initEntrance } from '@/scripts/entrance';
+  import { initSlides } from '@/scripts/slides';
+
+  initEntrance();
+  initSlides();
+</script>

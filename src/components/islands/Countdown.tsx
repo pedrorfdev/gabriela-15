@@ -4,35 +4,30 @@ interface CountdownProps {
   targetIso: string;
 }
 
-interface CountdownUnitProps {
-  value: number;
-  label: string;
-}
+const UNITS = [
+  ['days', 'dias'],
+  ['hours', 'horas'],
+  ['minutes', 'min'],
+  ['seconds', 'seg'],
+] as const;
 
-function CountdownUnit({ value, label }: CountdownUnitProps) {
-  return (
-    <div className="min-w-13 text-center sm:min-w-18">
-      <span className="font-serif text-[32px] font-semibold tabular-nums text-accent sm:text-[46px]">
-        {String(value).padStart(2, '0')}
-      </span>
-      <br />
-      <span className="text-[9px] uppercase tracking-wide text-muted sm:text-[10px]">{label}</span>
-    </div>
-  );
-}
-
+/**
+ * Fixed-width units, so the countdown has the same size whatever the digits.
+ * The entrance animation relies on that to measure a hidden copy of it.
+ */
 export default function Countdown({ targetIso }: CountdownProps) {
-  const { days, hours, minutes, seconds } = useCountdown(targetIso);
+  const time = useCountdown(targetIso);
 
   return (
-    <div className="flex items-baseline justify-center gap-1.5 sm:gap-5">
-      <CountdownUnit value={days} label="dias" />
-      <span className="text-base text-gold sm:text-lg">·</span>
-      <CountdownUnit value={hours} label="horas" />
-      <span className="text-base text-gold sm:text-lg">·</span>
-      <CountdownUnit value={minutes} label="minutos" />
-      <span className="text-base text-gold sm:text-lg">·</span>
-      <CountdownUnit value={seconds} label="segundos" />
+    <div role="timer" className="flex items-start justify-center gap-3">
+      {UNITS.map(([key, label]) => (
+        <div key={key} className="w-14 text-center">
+          <p className="font-display text-3xl italic leading-none tabular-nums text-brand">
+            {time ? String(time[key]).padStart(2, '0') : '--'}
+          </p>
+          <p className="mt-1 text-[11px] uppercase tracking-widest text-muted">{label}</p>
+        </div>
+      ))}
     </div>
   );
 }

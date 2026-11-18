@@ -1,0 +1,58 @@
+---
+import { IconClock, IconShirt } from '@tabler/icons-react';
+import { eventConfig } from '@/data/event';
+
+const { person, date, venue, dressCode } = eventConfig;
+
+const TILE = 'overflow-hidden bg-surface';
+const CONTENT = 'flex h-full flex-col justify-between p-5 opacity-0';
+const LABEL = 'text-[11px] uppercase tracking-[0.12em] text-muted';
+---
+
+<div data-part="name-tile" class:list={[TILE, 'tile-name col-span-2 min-h-21']}>
+  <div data-part="tile-content" class="flex h-full items-center gap-3 p-5 opacity-0">
+    <div data-part="name-end" aria-hidden="true" class="invisible shrink-0"></div>
+    <p class="font-display text-xl italic text-muted">{person.age} anos</p>
+  </div>
+</div>
+
+<div class:list={[TILE, 'tile-mid min-h-27']}>
+  <div data-part="tile-content" class={CONTENT}>
+    <p class={LABEL}>Horário</p>
+    <div class="flex items-center gap-2">
+      <IconClock size={22} className="text-brand" />
+      <p class="text-2xl font-medium text-ink">{date.displayTime}</p>
+    </div>
+  </div>
+</div>
+
+<div class:list={[TILE, 'tile-mid min-h-27']}>
+  <div data-part="tile-content" class={CONTENT}>
+    <p class={LABEL}>Local</p>
+    <div>
+      <svg viewBox="0 0 120 30" class="mb-1 h-6 w-full" fill="none" aria-hidden="true">
+        <path d="M10 24 Q 40 2 62 15 T 110 6" class="stroke-line" stroke-width="1.5" stroke-dasharray="5 5"></path>
+        <circle cx="10" cy="24" r="4" class="fill-brand"></circle>
+        <circle cx="110" cy="6" r="4" class="fill-brand"></circle>
+      </svg>
+      <p class="text-base font-medium text-ink">{venue.name}</p>
+    </div>
+  </div>
+</div>
+
+<div class:list={[TILE, 'tile-mid col-span-2 min-h-18 sm:col-span-1']}>
+  <div data-part="tile-content" class="flex h-full items-center justify-between gap-3 p-5 opacity-0">
+    <div>
+      <p class={LABEL}>{dressCode.title}</p>
+      <p class="mt-1 text-base font-medium text-ink">{dressCode.description}</p>
+    </div>
+    <IconShirt size={28} className="shrink-0 text-brand" />
+  </div>
+</div>
+
+<div data-part="countdown-tile" class:list={[TILE, 'tile-cd col-span-2 min-h-24 sm:col-span-1']}>
+  <div data-part="tile-content" class={CONTENT}>
+    <p class={LABEL}>Faltam</p>
+    <div data-part="countdown-end" aria-hidden="true" class="invisible"></div>
+  </div>
+</div>

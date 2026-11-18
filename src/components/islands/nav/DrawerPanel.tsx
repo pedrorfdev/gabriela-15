@@ -19,7 +19,7 @@ export default function DrawerPanel({ onClose }: DrawerPanelProps) {
   const panelRef = useRef<HTMLElement>(null);
   useFocusTrap(panelRef, onClose);
 
-  const { days, hours } = useCountdown(eventConfig.date.iso);
+  const time = useCountdown(eventConfig.date.iso);
   const { theme, toggleTheme } = useTheme();
   const themeLabel = theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro';
 
@@ -50,7 +50,7 @@ export default function DrawerPanel({ onClose }: DrawerPanelProps) {
 
       <p className="mt-5 font-display text-3xl italic text-brand">{eventConfig.person.name}</p>
       <p className="mb-9 mt-1 text-xs text-muted">
-        {days} dias · {hours} horas restantes
+        {time ? `${time.days} dias · ${time.hours} horas restantes` : '\u00a0'}
       </p>
 
       <nav className="mb-9 flex flex-col gap-5">

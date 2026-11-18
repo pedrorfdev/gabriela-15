@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Hero from '@/components/sections/Hero.astro';
-import Details from '@/components/sections/Details.astro';
+import Entrance from '@/components/sections/Entrance.astro';
 import Venue from '@/components/sections/Venue.astro';
 import Recommendations from '@/components/sections/Recommendations.astro';
 import Gifts from '@/components/sections/Gifts.astro';
@@ -14,8 +13,7 @@ import { eventConfig } from '@/data/event';
 
 <BaseLayout title={`${eventConfig.person.name} · ${eventConfig.person.age} anos`}>
   <main>
-    <Hero />
-    <Details />
+    <Entrance />
     <Venue />
     <Recommendations />
     <Gifts />

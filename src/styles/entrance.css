@@ -1,0 +1,70 @@
+/* Ticket entrance: the geometry Tailwind utilities can't express.
+   Every value that changes over time is written per frame by src/scripts/entrance. */
+
+.entrance-ticket {
+  --r-out: 1.25rem; /* outer corners of the whole ticket */
+  --r-in: 0px; /* corners where two pieces meet; grows when the ticket opens */
+  --perf: 1; /* opacity of the dashed tear line: 1 while whole, 0 once torn */
+  --hole-size: 28px; /* distance between perforation holes */
+}
+
+/* Mobile: the stub sits on top and tears away along its bottom edge. */
+.entrance-stub {
+  --at: 50% 100%;
+  border: 0 dashed color-mix(in srgb, var(--c-soft) calc(var(--perf) * 100%), transparent);
+  border-bottom-width: 2px;
+  border-radius: var(--r-out) var(--r-out) var(--r-in) var(--r-in);
+}
+
+.entrance-body {
+  --at: 50% 0%;
+}
+
+.tile-name,
+.tile-mid {
+  border-radius: var(--r-in);
+}
+
+.tile-cd {
+  border-radius: var(--r-in) var(--r-in) var(--r-out) var(--r-out);
+}
+
+/* Perforation: half circles bitten out of the two torn edges. When the pieces
+   sit together the half circles meet and read as round holes. */
+.entrance-piece[data-torn='true'] {
+  -webkit-mask-image: radial-gradient(circle at var(--at), transparent var(--bite), black calc(var(--bite) + 0.6px));
+  mask-image: radial-gradient(circle at var(--at), transparent var(--bite), black calc(var(--bite) + 0.6px));
+  -webkit-mask-size: var(--hole-size) 100%;
+  mask-size: var(--hole-size) 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+
+@media (min-width: 640px) {
+  /* Desktop: the stub sits on the left and tears away along its right edge. */
+  .entrance-stub {
+    --at: 100% 50%;
+    border-bottom-width: 0;
+    border-right-width: 2px;
+    border-radius: var(--r-out) var(--r-in) var(--r-in) var(--r-out);
+  }
+
+  .entrance-body {
+    --at: 0% 50%;
+  }
+
+  .tile-name {
+    border-radius: var(--r-in) var(--r-out) var(--r-in) var(--r-in);
+  }
+
+  .tile-cd {
+    border-radius: var(--r-in) var(--r-in) var(--r-out) var(--r-in);
+  }
+
+  .entrance-piece[data-torn='true'] {
+    -webkit-mask-size: 100% var(--hole-size);
+    mask-size: 100% var(--hole-size);
+    -webkit-mask-repeat: repeat-y;
+    mask-repeat: repeat-y;
+  }
+}

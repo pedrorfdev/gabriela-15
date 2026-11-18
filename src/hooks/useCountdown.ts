@@ -23,16 +23,17 @@ function diffToTimeLeft(targetIso: string): TimeLeft {
 }
 
 /**
- * Ticks down to the given ISO date, updating once per second.
+ * Ticks down to the given ISO date, once per second. Returns null until the
+ * component mounts, so the server-rendered markup and the first client render match.
  */
-export function useCountdown(targetIso: string): TimeLeft {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => diffToTimeLeft(targetIso));
+export function useCountdown(targetIso: string): TimeLeft | null {
+  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimeLeft(diffToTimeLeft(targetIso));
-    }, 1000);
+    const update = () => setTimeLeft(diffToTimeLeft(targetIso));
+    update();
 
+    const intervalId = setInterval(update, 1000);
     return () => clearInterval(intervalId);
   }, [targetIso]);
 

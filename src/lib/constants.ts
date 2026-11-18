@@ -1,16 +1,15 @@
-// ============================================================
-// src/lib/constants.ts
-//
-// Small shared constants. Nothing here should need to change
-// per-event — that belongs in data/event.ts instead.
-// ============================================================
-
 export const STORAGE_KEYS = {
   gateUnlocked: 'gabriela15:unlocked',
 } as const;
 
+/** Fired on window when the visitor passes the gate, so non-React code can react. */
+export const GATE_UNLOCKED_EVENT = 'gate:unlocked';
+
 export const RSVP_LIMITS = {
   maxCompanions: 6,
+  maxNameLength: 80,
+  maxNoteLength: 200,
+  minNameLength: 3,
 } as const;
 
 export const BREAKPOINTS = {
