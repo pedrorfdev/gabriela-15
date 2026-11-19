@@ -1,0 +1,25 @@
+---
+import type { IconCamera } from '@tabler/icons-react';
+
+interface Props {
+  icon: typeof IconCamera;
+  title: string;
+  description: string;
+}
+
+const { icon: Icon, title, description } = Astro.props;
+---
+
+<section class="rounded-card border border-border bg-surface p-6 sm:p-8">
+  <div class="mb-5 flex items-start gap-4">
+    <span class="flex size-11 flex-none items-center justify-center rounded-full bg-brand/10 text-brand">
+      <Icon size={20} />
+    </span>
+    <div>
+      <h2 class="font-display text-2xl italic text-ink">{title}</h2>
+      <p class="mt-1 text-sm text-muted">{description}</p>
+    </div>
+  </div>
+
+  <slot />
+</section>

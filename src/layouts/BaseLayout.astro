@@ -8,9 +8,18 @@ import { STORAGE_KEYS } from '@/lib/constants';
 interface Props {
   title: string;
   description?: string;
+  /** False for pages guests must reach without the password, like /party. */
+  gated?: boolean;
+  /** False hides the menu drawer and the back-to-top button. */
+  showNav?: boolean;
 }
 
-const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.' } = Astro.props;
+const {
+  title,
+  description = 'Venha celebrar os 15 anos da Gabriela com a gente.',
+  gated = true,
+  showNav = true,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -63,11 +72,17 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
     </script>
   </head>
   <body>
-    <PasswordGate client:load />
-    <NavDrawer client:idle />
-    <BackToTop />
+    {gated && <PasswordGate client:load />}
+    {showNav && <NavDrawer client:idle />}
+    {showNav && <BackToTop />}
 
     <slot />
+
+    <script>
+      import { initReveal } from '@/scripts/reveal';
+
+      initReveal();
+    </script>
 
     <script>
       // Smooth-scrolls any link that points at an anchor on the page we're
@@ -86,10 +101,6 @@ const { title, description = 'Venha celebrar os 15 anos da Gabriela com a gente.
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-    </script>
-    <script>
-      import { initReveal } from '@/scripts/reveal';
-      initReveal();
     </script>
   </body>
 </html>

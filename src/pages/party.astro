@@ -1,0 +1,46 @@
+---
+import { IconBrandInstagram, IconCamera, IconMessage } from '@tabler/icons-react';
+import CaptionCard from '@/components/islands/party/CaptionCard';
+import ComposeMessageButton from '@/components/islands/party/ComposeMessageButton';
+import PhotoUploader from '@/components/islands/party/PhotoUploader';
+import PartySection from '@/components/party/PartySection.astro';
+import Flourish from '@/components/ui/Flourish.astro';
+import Seal from '@/components/ui/Seal';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { partyPage } from '@/data/party';
+
+const { instagram, photos, message } = partyPage;
+---
+
+<BaseLayout
+  title={partyPage.title}
+  description="Fotos, recados e Instagram da festa."
+  gated={false}
+  showNav={false}
+>
+  <main class="min-h-svh bg-band px-4 py-12 sm:py-16">
+    <div class="mx-auto max-w-xl">
+      <header class="mb-10 text-center">
+        <Seal className="mx-auto size-20" />
+        <h1 class="mt-5 font-display text-4xl italic text-ink sm:text-5xl">{partyPage.title}</h1>
+        <Flourish />
+        <p class="text-base text-muted">{partyPage.intro}</p>
+      </header>
+
+      <div class="flex flex-col gap-5">
+        <PartySection icon={IconBrandInstagram} title={instagram.title} description={instagram.description}>
+          <CaptionCard client:load />
+        </PartySection>
+
+        <PartySection icon={IconCamera} title={photos.title} description={photos.description}>
+          <PhotoUploader client:load />
+          <p class="mt-5 rounded-tile bg-band px-4 py-3 text-center text-sm text-muted">{photos.notice}</p>
+        </PartySection>
+
+        <PartySection icon={IconMessage} title={message.title} description={message.description}>
+          <ComposeMessageButton client:load />
+        </PartySection>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

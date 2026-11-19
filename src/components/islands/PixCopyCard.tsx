@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 
 interface PixCopyCardProps {
   title: string;
@@ -7,23 +7,8 @@ interface PixCopyCardProps {
   pixKey: string;
 }
 
-type CopyStatus = 'idle' | 'copied' | 'failed';
-
-const RESET_DELAY_MS = 2500;
-
 export default function PixCopyCard({ title, description, pixKey }: PixCopyCardProps) {
-  const [status, setStatus] = useState<CopyStatus>('idle');
-
-  async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(pixKey);
-      setStatus('copied');
-    } catch {
-      // Clipboard API needs HTTPS or localhost; show the key so it can be copied by hand.
-      setStatus('failed');
-    }
-    window.setTimeout(() => setStatus('idle'), RESET_DELAY_MS);
-  }
+  const { status, copy } = useCopyToClipboard();
 
   return (
     <div className="rounded-card bg-band p-5 sm:p-6">
@@ -35,7 +20,7 @@ export default function PixCopyCard({ title, description, pixKey }: PixCopyCardP
 
         <button
           type="button"
-          onClick={handleCopy}
+          onClick={() => copy(pixKey)}
           className="inline-flex items-center justify-center gap-2 rounded-full bg-action px-5 py-3 text-xs uppercase tracking-wide text-on-action transition-colors hover:bg-action/90"
         >
           {status === 'copied' ? <IconCheck size={16} /> : <IconCopy size={16} />}
