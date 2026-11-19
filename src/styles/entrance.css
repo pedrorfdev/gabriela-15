@@ -2,7 +2,7 @@
    Every value that changes over time is written per frame by src/scripts/entrance. */
 
 .entrance-ticket {
-  --r-out: 1.25rem; /* outer corners of the whole ticket */
+  --r-out: 1.5rem; /* outer corners of the whole ticket */
   --r-in: 0px; /* corners where two pieces meet; grows when the ticket opens */
   --perf: 1; /* opacity of the dashed tear line: 1 while whole, 0 once torn */
   --hole-size: 28px; /* distance between perforation holes */

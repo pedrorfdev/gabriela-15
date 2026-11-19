@@ -18,8 +18,8 @@ const { day, month, year } = getDateParts(eventConfig.date.iso);
         <Image
           src={photo.image}
           alt={photo.alt}
-          widths={[240, 480]}
-          sizes="(min-width: 640px) 176px, 100vw"
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 640px) 26vw, 100vw"
           loading={index === 0 ? 'eager' : 'lazy'}
           class="size-full object-cover"
         />
@@ -30,9 +30,9 @@ const { day, month, year } = getDateParts(eventConfig.date.iso);
 </div>
 
 <div
-  class="absolute inset-0 z-10 flex flex-row items-center justify-center gap-3 text-on-photo sm:flex-col sm:justify-end sm:gap-0 sm:pb-6"
+  class="absolute inset-0 z-10 flex flex-row items-center justify-center gap-3 text-on-photo sm:flex-col sm:justify-end sm:gap-1 sm:pb-[min(4svh,2rem)]"
 >
-  <span class="text-[11px] uppercase tracking-[0.15em]">{month}</span>
-  <span class="font-display text-5xl italic leading-none sm:text-6xl">{day}</span>
-  <span class="text-[11px] uppercase tracking-[0.15em]">{year}</span>
+  <span class="text-xs uppercase tracking-[0.18em] sm:text-sm">{month}</span>
+  <span class="font-display text-[clamp(3rem,min(7vw,13svh),7rem)] italic leading-none">{day}</span>
+  <span class="text-xs uppercase tracking-[0.18em] sm:text-sm">{year}</span>
 </div>

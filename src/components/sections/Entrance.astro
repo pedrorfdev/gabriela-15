@@ -9,30 +9,27 @@ import '@/styles/entrance.css';
 
 const { person, date } = eventConfig;
 
-// The hidden placeholders and the flying copies must share these exact classes,
-// otherwise the measured positions would not match.
-const NAME = 'whitespace-nowrap font-display text-5xl italic leading-none sm:text-6xl';
+// The hidden placeholder and the flying copy of the name must share these exact
+// classes, otherwise the measured positions would not match.
+const NAME =
+  'whitespace-nowrap font-display italic leading-none text-[length:clamp(3.5rem,min(9vw,15svh),8rem)]';
 const FLYER = 'pointer-events-none absolute left-0 top-0 z-20 origin-top-left opacity-0';
-const STUB_HEIGHT = heroPhotos.length > 0 ? 'h-48' : 'h-20';
+const STUB_SIZE = heroPhotos.length > 0 ? 'h-[26svh]' : 'h-[16svh]';
 ---
 
 <section
   id="details"
   data-entrance
   data-state="whole"
-  class="relative flex min-h-svh items-center justify-center overflow-x-clip bg-band px-4 py-12 sm:px-12"
+  class="relative flex h-svh min-h-150 flex-col overflow-x-clip bg-band p-3 sm:p-6"
 >
-  <div data-part="stage" class="relative w-full max-w-3xl">
-    <div class="mb-4 flex justify-center">
-      <Seal className="size-16" />
-    </div>
-
-    <div data-part="ticket" class="entrance-ticket relative flex flex-col sm:h-105 sm:flex-row">
+  <div data-part="stage" class="relative flex min-h-0 flex-1 flex-col">
+    <div data-part="ticket" class="entrance-ticket relative flex min-h-0 flex-1 flex-col sm:flex-row">
       <div
         data-part="stub"
         class:list={[
-          'entrance-piece entrance-stub relative shrink-0 overflow-hidden bg-surface sm:h-auto sm:w-44',
-          STUB_HEIGHT,
+          'entrance-piece entrance-stub relative shrink-0 overflow-hidden bg-surface sm:h-auto sm:w-[26%]',
+          STUB_SIZE,
         ]}
       >
         <TicketStub />
@@ -40,29 +37,32 @@ const STUB_HEIGHT = heroPhotos.length > 0 ? 'h-48' : 'h-20';
 
       <div
         data-part="body"
-        class="entrance-piece entrance-body relative grid min-h-85 flex-1 grid-cols-2 sm:grid-rows-[96px_1fr_1fr]"
+        class="entrance-piece entrance-body relative grid min-h-0 flex-1 grid-cols-2 grid-rows-[1fr_1.4fr_1fr_1.2fr] sm:grid-rows-[1fr_2.2fr_2.2fr]"
       >
         <DetailTiles />
 
         <div
           data-part="hero"
-          class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center"
+          class="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-4 text-center sm:gap-3"
         >
-          <p class="text-[11px] uppercase tracking-[0.15em] text-muted">você está convidado para os</p>
-          <p data-part="name-start" aria-hidden="true" class:list={['invisible mt-2', NAME]}>{person.name}</p>
-          <p class="mb-3 mt-2 font-display text-2xl italic text-muted">{person.age} anos</p>
-          <p class="text-[11px] uppercase tracking-[0.15em] text-muted">{date.displayDate} · {date.displayTime}</p>
-          <div data-part="countdown-start" aria-hidden="true" class="invisible mt-4">
+          <Seal className="size-[clamp(3.5rem,9svh,6rem)]" />
+          <p class="text-xs uppercase tracking-[0.18em] text-muted sm:text-sm">você está convidado para os</p>
+          <p data-part="name-start" aria-hidden="true" class:list={['invisible', NAME]}>{person.name}</p>
+          <p class="font-display text-[clamp(1.25rem,2.4vw,2rem)] italic text-muted">{person.age} anos</p>
+          <p class="text-xs uppercase tracking-[0.18em] text-muted sm:text-sm">
+            {date.displayDate} · {date.displayTime}
+          </p>
+          <div data-part="countdown-start" aria-hidden="true" class="invisible mt-1 sm:mt-3">
             <Countdown targetIso={date.iso} />
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-8 flex justify-center">
+    <div class="flex shrink-0 items-center justify-center pt-3 sm:pt-4">
       <a
         href="#rsvp"
-        class="rounded-full bg-action px-8 py-3.5 text-xs uppercase tracking-wide text-on-action transition-colors hover:bg-action/90"
+        class="rounded-full bg-action px-8 py-3.5 text-xs uppercase tracking-wide text-on-action transition-colors hover:bg-action/90 sm:px-10 sm:py-4 sm:text-sm"
       >
         Confirmar presença
       </a>

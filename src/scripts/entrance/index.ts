@@ -10,28 +10,32 @@ const FIRST_SCROLL_PX = 12; // scrolling this far also starts the tear
 
 type Status = 'idle' | 'playing' | 'done';
 
-function find(root: HTMLElement, name: string): HTMLElement {
-  const element = root.querySelector<HTMLElement>(`[data-part="${name}"]`);
-  if (!element) throw new Error(`[entrance] missing element: ${name}`);
+function within(parent: HTMLElement, selector: string): HTMLElement {
+  const element = parent.querySelector<HTMLElement>(selector);
+  if (!element) throw new Error(`[entrance] missing element: ${selector}`);
   return element;
 }
 
 function collectParts(root: HTMLElement): Parts {
+  const find = (name: string) => within(root, `[data-part="${name}"]`);
+  const tileContent = '[data-part="tile-content"]';
+
   return {
-    stage: find(root, 'stage'),
-    ticket: find(root, 'ticket'),
-    stub: find(root, 'stub'),
-    body: find(root, 'body'),
-    hero: find(root, 'hero'),
-    nameStart: find(root, 'name-start'),
-    nameEnd: find(root, 'name-end'),
-    countdownStart: find(root, 'countdown-start'),
-    countdownEnd: find(root, 'countdown-end'),
-    nameTile: find(root, 'name-tile'),
-    countdownTile: find(root, 'countdown-tile'),
-    flyName: find(root, 'fly-name'),
-    flyCountdown: find(root, 'fly-countdown'),
-    tileContents: Array.from(root.querySelectorAll<HTMLElement>('[data-part="tile-content"]')),
+    stage: find('stage'),
+    ticket: find('ticket'),
+    stub: find('stub'),
+    body: find('body'),
+    hero: find('hero'),
+    nameStart: find('name-start'),
+    nameEnd: find('name-end'),
+    ageEnd: find('age-end'),
+    countdownStart: find('countdown-start'),
+    countdownEnd: find('countdown-end'),
+    nameContent: within(find('name-tile'), tileContent),
+    countdownContent: within(find('countdown-tile'), tileContent),
+    flyName: find('fly-name'),
+    flyCountdown: find('fly-countdown'),
+    tileContents: Array.from(root.querySelectorAll<HTMLElement>(tileContent)),
   };
 }
 

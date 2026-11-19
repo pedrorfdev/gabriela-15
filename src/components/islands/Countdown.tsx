@@ -12,20 +12,26 @@ const UNITS = [
 ] as const;
 
 /**
- * Fixed-width units, so the countdown has the same size whatever the digits.
- * The entrance animation relies on that to measure a hidden copy of it.
+ * Sized in em from one fluid font size, so it scales with the screen and keeps
+ * the same proportions whatever the digits. The entrance animation measures a
+ * hidden copy of it, so every copy renders with these exact classes.
  */
 export default function Countdown({ targetIso }: CountdownProps) {
   const time = useCountdown(targetIso);
 
   return (
-    <div role="timer" className="flex items-start justify-center gap-3">
+    <div
+      role="timer"
+      className="flex items-start justify-center gap-[0.4em] text-[clamp(1.75rem,min(3.4vw,6svh),3.25rem)]"
+    >
       {UNITS.map(([key, label]) => (
-        <div key={key} className="w-14 text-center">
-          <p className="font-display text-3xl italic leading-none tabular-nums text-brand">
+        <div key={key} className="w-[2.2em] text-center">
+          <p className="font-display italic leading-none tabular-nums text-brand">
             {time ? String(time[key]).padStart(2, '0') : '--'}
           </p>
-          <p className="mt-1 text-[11px] uppercase tracking-widest text-muted">{label}</p>
+          <p className="mt-2 text-[clamp(0.75rem,1vw,0.95rem)] uppercase tracking-widest text-muted">
+            {label}
+          </p>
         </div>
       ))}
     </div>
