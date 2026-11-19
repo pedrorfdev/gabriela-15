@@ -2,10 +2,10 @@
 import DecorativeMap from '@/components/ui/DecorativeMap.astro';
 import Flourish from '@/components/ui/Flourish.astro';
 import { recommendations } from '@/data/event';
-import { recommendationIcons } from '@/lib/recommendationIcons';
+import { getRecommendationIcon } from '@/lib/recommendationIcons';
 
-// Placeholder tints for items that don't have a photo yet.
-const PLACEHOLDER_TINTS = ['from-band to-soft', 'from-line/30 to-band'];
+// Only a real path or URL counts as a photo; anything else shows the icon tile.
+const isPhoto = (image?: string) => Boolean(image && /^(\/|https?:)/.test(image));
 ---
 
 <section id="recommendations" class="overflow-hidden bg-surface px-4 py-16 sm:px-12 sm:py-24">
@@ -17,11 +17,11 @@ const PLACEHOLDER_TINTS = ['from-band to-soft', 'from-line/30 to-band'];
       <ul class="flex flex-col gap-3">
         {
           recommendations.map((item, index) => {
-            const Icon = recommendationIcons[item.category];
+            const Icon = getRecommendationIcon(item.category);
             return (
               <li data-reveal data-from={index % 2 === 0 ? 'left' : 'right'} class="reveal">
                 <article class="flex flex-col gap-4 rounded-card p-4 transition-colors hover:bg-brand/5 sm:flex-row sm:items-center sm:gap-6">
-                  {item.image ? (
+                  {isPhoto(item.image) ? (
                     <img
                       src={item.image}
                       alt={item.name}
@@ -31,12 +31,9 @@ const PLACEHOLDER_TINTS = ['from-band to-soft', 'from-line/30 to-band'];
                   ) : (
                     <div
                       aria-hidden="true"
-                      class:list={[
-                        'flex h-44 w-full flex-none items-center justify-center rounded-tile bg-linear-to-br text-brand sm:size-36',
-                        PLACEHOLDER_TINTS[index % PLACEHOLDER_TINTS.length],
-                      ]}
+                      class="flex h-44 w-full flex-none items-center justify-center rounded-tile bg-band text-brand sm:size-36"
                     >
-                      <Icon size={52} stroke={1.5} />
+                      <Icon size={56} stroke={1.5} />
                     </div>
                   )}
 
